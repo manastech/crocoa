@@ -7,7 +7,7 @@ module Crocoa
     end
 
     def initialize(className : String)
-      @obj = LibObjC.getClass(className)
+      @obj = LibObjC.objc_getClass(className)
     end
 
     def name

@@ -13,17 +13,9 @@ class String
   def to_nsstring
     NSString.new self
   end
-
-  def to_sel
-    LibObjC.sel_registerName(self)
-  end
 end
 
 struct Nil
-  def to_sel
-    self
-  end
-
   def obj
     nil
   end
@@ -76,7 +68,7 @@ end
 
 # macro checked_wrap(expectedType, o)
 #   o = {{o}}
-#   klass = ObjCClass.new(LibObjC.msgSend(o, "class".to_sel))
+#   klass = ObjCClass.new(LibObjC.objc_msgSend(o, "class".to_sel))
 #   raise "Expected #{{{expectedType}}} got #{klass.name}" if klass.name != {{expectedType}}.to_s
 #   {{expectedType}}.new(o)
 # end
@@ -95,6 +87,8 @@ class NSObject
       p
     elsif p.is_a?(NSObject | NSPoint | NSSize | NSRect)
       p.obj
+    elsif p.is_a?(Selector)
+      p.to_objc
     else
       raise "error outboxing"
     end
@@ -105,7 +99,7 @@ class NSObject
   end
 
   def self.inbox(o)
-    klass = NSClass.new(LibObjC.msgSend(o, "class".to_sel))
+    klass = NSClass.new(LibObjC.objc_msgSend(o, "class".to_sel.to_objc))
     # map = {
     #   "__NSCFString" => NSString.class,
     #   "NSView" => NSView.class
@@ -132,7 +126,7 @@ class NSObject
   end
 
   # def self.inbox(expectedType, o)
-  #   klass = ObjCClass.new(LibObjC.msgSend(o, "class".to_sel))
+  #   klass = ObjCClass.new(LibObjC.objc_msgSend(o, "class".to_sel))
   #   raise "Expected #{expectedType} got #{klass.name}" if klass.name != expectedType.to_s
   #   expectedType.new(o)
   # end
@@ -144,19 +138,19 @@ class NSObject
   # end
 
   def self.mapped_class
-    LibObjC.getClass(to_s)
+    LibObjC.objc_getClass(to_s)
   end
 
   def initialize_using(init_method)
     #TODO replace obj for @obj
     obj = self.class.msgSend "alloc"
-    LibObjC.msgSend(obj, init_method.to_sel)
+    LibObjC.objc_msgSend(obj, init_method.to_sel.to_objc)
   end
 
   def initialize_using(init_method, arg0)
     #TODO replace obj for @obj
     obj = self.class.msgSend "alloc"
-    LibObjC.msgSend(obj, init_method.to_sel, outbox(arg0))
+    LibObjC.objc_msgSend(obj, init_method.to_sel.to_objc, outbox(arg0))
   end
 
   def initialize(pointer : UInt8*)
@@ -192,31 +186,31 @@ class NSObject
   end
 
   def self.msgSend(name)
-    LibObjC.msgSend(self.mapped_class, name.to_sel)
+    LibObjC.objc_msgSend(self.mapped_class, name.to_sel.to_objc)
   end
 
   def self.msgSend(name, arg0)
-    LibObjC.msgSend(self.mapped_class, name.to_sel, outbox(arg0))
+    LibObjC.objc_msgSend(self.mapped_class, name.to_sel.to_objc, outbox(arg0))
   end
 
   def self.msgSend(name, arg0, arg1, arg2, arg3)
-    LibObjC.msgSend(self.mapped_class, name.to_sel, outbox(arg0), outbox(arg1), outbox(arg2), outbox(arg3))
+    LibObjC.objc_msgSend(self.mapped_class, name.to_sel.to_objc, outbox(arg0), outbox(arg1), outbox(arg2), outbox(arg3))
   end
 
   def msgSend(name)
-    LibObjC.msgSend(self.obj, name.to_sel)
+    LibObjC.objc_msgSend(self.obj, name.to_sel.to_objc)
   end
 
   def msgSend(name, arg0)
-    LibObjC.msgSend(self.obj, name.to_sel, outbox(arg0))
+    LibObjC.objc_msgSend(self.obj, name.to_sel.to_objc, outbox(arg0))
   end
 
   def msgSend(name, arg0, arg1)
-    LibObjC.msgSend(self.obj, name.to_sel, outbox(arg0), outbox(arg1))
+    LibObjC.objc_msgSend(self.obj, name.to_sel.to_objc, outbox(arg0), outbox(arg1))
   end
 
   def msgSend(name, arg0, arg1, arg2)
-    LibObjC.msgSend(self.obj, name.to_sel, outbox(arg0), outbox(arg1), outbox(arg2))
+    LibObjC.objc_msgSend(self.obj, name.to_sel.to_objc, outbox(arg0), outbox(arg1), outbox(arg2))
   end
 
 end
@@ -312,7 +306,7 @@ end
 initializable_object :NSMenuItem do
   def initialize(title : String, action : String?, keyEquivalent : String)
     obj = self.class.msgSend "alloc"
-    @obj = LibObjC.msgSend(obj, "initWithTitle:action:keyEquivalent:".to_sel,
+    @obj = LibObjC.objc_msgSend(obj, "initWithTitle:action:keyEquivalent:".to_sel,
       outbox(title.to_nsstring),outbox(action.to_sel),outbox(keyEquivalent.to_nsstring))
   end
 
@@ -373,7 +367,7 @@ class NSWindow < NSObject
 
   def initialize(rect : NSRect, styleMask, backing, defer)
     obj = self.class.msgSend "alloc"
-    @obj = LibObjC.msgSend(obj, "initWithContentRect:styleMask:backing:defer:".to_sel, outbox(rect), outbox(styleMask.to_nsuinteger), outbox(backing.to_nsenum), outbox(defer.to_nsbool))
+    @obj = LibObjC.objc_msgSend(obj, "initWithContentRect:styleMask:backing:defer:".to_sel, outbox(rect), outbox(styleMask.to_nsuinteger), outbox(backing.to_nsenum), outbox(defer.to_nsbool))
   end
 
   def cascadeTopLeftFromPoint=(point : NSPoint)
@@ -400,7 +394,7 @@ end
 class NSView < NSObject
   def initialize(rect : NSRect)
     obj = self.class.msgSend "alloc"
-    @obj = LibObjC.msgSend(obj, "initWithFrame:".to_sel, outbox(rect))
+    @obj = LibObjC.objc_msgSend(obj, "initWithFrame:".to_sel, outbox(rect))
   end
 
   def initialize(pointer : UInt8*)
@@ -415,7 +409,7 @@ end
 class NSControl < NSObject
   def initialize(rect : NSRect)
     obj = self.class.msgSend "alloc"
-    @obj = LibObjC.msgSend(obj, "initWithFrame:".to_sel, outbox(rect))
+    @obj = LibObjC.objc_msgSend(obj, "initWithFrame:".to_sel, outbox(rect))
   end
 
   def value=(value : String)

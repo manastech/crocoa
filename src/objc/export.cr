@@ -3,7 +3,7 @@ macro objc_class(class_name)
     property :obj
   end
 
-  $x_{{class_name.id}}_objc_class = ObjCClass.new(LibObjC.allocateClassPair(ObjCClass.new("NSObject").obj, {{class_name.id.stringify}}, 0_u32))
+  $x_{{class_name.id}}_objc_class = ObjCClass.new(LibObjC.objc_allocateClassPair(ObjCClass.new("NSObject").obj, {{class_name.id.stringify}}, 0_u32))
   # TODO
   # register instance variable for crystal self using class_addIvar
   #     use it in methods instead of creating new objects each time
