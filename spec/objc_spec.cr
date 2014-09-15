@@ -1,12 +1,6 @@
 require "spec"
 require "../src/crocoa"
 
-describe "ObjCClass" do
-  it "name" do
-    ObjCClass.new("NSString").name.should eq("NSString")
-  end
-end
-
 describe "NSString" do
   it "length" do
     "".to_nsstring.length.should eq(0)

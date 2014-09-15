@@ -1,22 +1,9 @@
 require "./objc/*"
+require "./foundation/*"
 require "./core_foundation/*"
 require "./app_kit/*"
 
-struct ObjCClass
-  property :obj
-
-  def initialize(c : UInt8*)
-    @obj = c
-  end
-
-  def initialize(className : String)
-    @obj = LibObjC.getClass(className)
-  end
-
-  def name
-    String.new(LibObjC.class_getName(@obj))
-  end
-end
+include Crocoa
 
 class String
   def to_cf_str
@@ -118,7 +105,7 @@ class NSObject
   end
 
   def self.inbox(o)
-    klass = ObjCClass.new(LibObjC.msgSend(o, "class".to_sel))
+    klass = NSClass.new(LibObjC.msgSend(o, "class".to_sel))
     # map = {
     #   "__NSCFString" => NSString.class,
     #   "NSView" => NSView.class
@@ -201,7 +188,7 @@ class NSObject
   end
 
   def objc_class
-    ObjCClass.new(msgSend("class"))
+    NSClass.new(msgSend("class"))
   end
 
   def self.msgSend(name)
