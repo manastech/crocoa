@@ -33,3 +33,21 @@ struct Bool
     self
   end
 end
+
+class Tuple
+  def map_to_objc
+    {% if true %}
+      {
+        {% for i in 0 ... @length %}
+          self[{{i}}].to_objc,
+        {% end %}
+      }
+    {% end %}
+  end
+end
+
+module Crocoa
+  def self.send_msg(objc_target, selector_name, *args)
+    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
+  end
+end
