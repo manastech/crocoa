@@ -2,8 +2,6 @@ require "nsobject"
 
 module Crocoa
   class NSMutableArray < NSObject
-    objc_class
-
     def initialize
       alloc_init
     end

@@ -1,7 +1,5 @@
 module Crocoa
   class NSString < NSObject
-    objc_class
-
     def initialize(s : String)
       alloc_init "initWithUTF8String:", s.cstr
     end
