@@ -26,6 +26,10 @@ struct Int
   def to_objc
     self
   end
+
+  def to_nsuinteger
+    self.to_u64
+  end
 end
 
 struct Bool

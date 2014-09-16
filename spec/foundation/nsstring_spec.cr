@@ -15,10 +15,10 @@ describe "NSString" do
     ns("lorem").length.should eq(5)
   end
 
-  # it "[]" do
-  #   ns("a")[0].should eq('a')
-  #   ns("lorem")[2].should eq('r')
-  # end
+  it "[]" do
+    ns("a")[0].should eq('a')
+    ns("lorem")[2].should eq('r')
+  end
 
   it "to_s" do
     ns("lorem").to_s.should eq("lorem")

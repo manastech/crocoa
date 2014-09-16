@@ -40,10 +40,6 @@ struct Int
     self.to_i64
   end
 
-  def to_nsuinteger
-    self.to_u64
-  end
-
   def to_nsenum
     self.to_u64
   end

@@ -1,10 +1,32 @@
-macro objc_method(method_name, returnType = nil)
-  def {{method_name.id}}
-    res = Crocoa.send_msg(self.to_objc, {{method_name.id.stringify}})
+macro objc_method_arg(value, type)
+  {% if type == :NSUInteger %}
+    {{value.id}}.to_nsuinteger
+  {% else %}
+    {{value.id}}
+  {% end %}
+end
+
+macro objc_method(method_name, args = nil, returnType = nil, crystal_method = nil)
+  def {{(crystal_method || method_name).id}}(
+    {% for i in 0 ... (args || [] of Symbol).length %}
+      {{"arg#{i}".id}}
+    {% end %}
+    )
+
+    res = Crocoa.send_msg(self.to_objc, {{method_name.id.stringify}}
+      {% for i in 0 ... (args || [] of Symbol).length %}
+        , {{"arg#{i}".id}}
+      {% end %}
+    )
+
     {% if returnType == :NSUInteger %}
       res.address
     {% else %}
-      self
+      {% if returnType == :unichar %}
+        res.address.chr
+      {% else %}
+        self
+      {% end %}
     {% end %}
   end
 end
@@ -42,7 +64,7 @@ module Crocoa
       release
     end
 
-    objc_method :retain
-    objc_method :release
+    objc_method "retain"
+    objc_method "release"
   end
 end
