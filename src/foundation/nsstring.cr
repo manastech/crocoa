@@ -10,10 +10,5 @@ module Crocoa
 
     objc_method "length", nil, :NSUInteger
     objc_method "characterAtIndex:", [:NSUInteger], :unichar, "[]"
-
-    # def [](index : Int)
-    #   msgSend("characterAtIndex:", index.to_nsuinteger).address.chr
-    # end
-
   end
 end
