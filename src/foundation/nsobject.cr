@@ -1,7 +1,11 @@
-macro objc_method(method_name)
+macro objc_method(method_name, returnType = nil)
   def {{method_name.id}}
-    Crocoa.send_msg(self.to_objc, {{method_name.id.stringify}})
-    self
+    res = Crocoa.send_msg(self.to_objc, {{method_name.id.stringify}})
+    {% if returnType == :NSUInteger %}
+      res.address
+    {% else %}
+      self
+    {% end %}
   end
 end
 

@@ -8,9 +8,7 @@ module Crocoa
       io << String.new(send_msg "UTF8String")
     end
 
-    def length
-      send_msg("length").address
-    end
+    objc_method "length", :NSUInteger
 
     # def [](index : Int)
     #   msgSend("characterAtIndex:", index.to_nsuinteger).address.chr
