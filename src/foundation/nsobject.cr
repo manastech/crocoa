@@ -14,7 +14,11 @@ module Crocoa
         {% if type == :BOOL %}
           {{value.id}} == true
         {% else %}
-          {{value.id}}
+          {% if type == :NSString %}
+            {{value.id}}.is_a?(Crocoa::NSString) ? {{value.id}} : Crocoa::NSString.new({{value.id}})
+          {% else %}
+            {{value.id}}
+          {% end %}
         {% end %}
       {% end %}
     end
@@ -27,14 +31,15 @@ module Crocoa
 
     macro objc_method(method_name, args = nil, returnType = nil, crystal_method = nil)
       def {{(crystal_method || method_name).id}}(
+        # {{ args ||= [] of Symbol}}
         {% for i in 0 ... (args || [] of Symbol).length %}
         # ???? new lines breaks
         # ???? unable to extract type restriction on its own macro
-          {{"arg#{i}".id}} {% if args[i] == :BOOL %}: Bool{% end %}{% end %})
+          {{"arg#{i}".id}} {% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|Crocoa::NSString {% end %}{% end %})
 
         res = Crocoa.send_msg(self.to_objc, {{method_name}}
           {% for i in 0 ... (args || [] of Symbol).length %}
-            , objc_method_arg({{"arg#{i}".id}}, args[i])
+            , objc_method_arg({{"arg#{i}".id}}, {{args[i]}})
           {% end %}
         )
 
@@ -49,18 +54,22 @@ module Crocoa
           {% if returnType == :BOOL %}
             res.address != 0
           {% else %}
-            {% if returnType == :id %}
-              klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
-              if klass.name == "__NSCFString"
-                Crocoa::NSString.new(res)
-              else
-                res
-              end
+            {% if returnType == :NSString %}
+              Crocoa::NSString.new(res)
             {% else %}
-              {% if returnType == :unichar %}
-                res.address.chr
+              {% if returnType == :id %}
+                klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
+                if klass.name == "__NSCFString"
+                  Crocoa::NSString.new(res)
+                else
+                  res
+                end
               {% else %}
-                self
+                {% if returnType == :unichar %}
+                  res.address.chr
+                {% else %}
+                  self
+                {% end %}
               {% end %}
             {% end %}
           {% end %}
@@ -98,8 +107,8 @@ module Crocoa
       @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), "init")
     end
 
-    def alloc_init(init_method, arg)
-      @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), init_method, arg)
+    def alloc_init(init_method, *args)
+      @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), init_method, *args)
     end
 
     def finalize

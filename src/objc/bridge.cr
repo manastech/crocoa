@@ -68,6 +68,16 @@ module Crocoa
     objc_target.not_nil!
     LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, arg1.to_objc)
   end
+
+  def self.send_msg(objc_target, selector_name, arg1, arg2)
+    objc_target.not_nil!
+    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, arg1.to_objc, arg2.to_objc)
+  end
+
+  def self.send_msg(objc_target, selector_name, arg1, arg2, arg3)
+    objc_target.not_nil!
+    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, arg1.to_objc, arg2.to_objc, arg3.to_objc)
+  end
 end
 
 
