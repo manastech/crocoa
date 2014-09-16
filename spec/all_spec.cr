@@ -1,5 +1,6 @@
 require "spec"
 
-require "foundation/**"
-require "objc/**"
 require "objc_spec"
+require "objc/**"
+require "foundation/**"
+require "app_kit/**"

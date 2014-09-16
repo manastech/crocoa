@@ -32,9 +32,11 @@ struct Int
   end
 end
 
+alias NSEnum = UInt64
+
 struct Bool
   def to_objc
-    self
+    self ? 0xFF_u8 : 0x00_u8
   end
 end
 

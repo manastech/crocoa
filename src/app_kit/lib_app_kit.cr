@@ -1,4 +1,10 @@
 lib LibAppKit("`echo \"-framework AppKit\"`")
+  enum NSApplicationActivationPolicy < NSEnum
+     Regular,
+     Accessory,
+     Prohibited
+  end
+
   fun ns_run_alert_panel = NSRunAlertPanel(LibCF::CFString, LibCF::CFString,
                                LibCF::CFString, LibCF::CFString, LibCF::CFString, ...);
 
