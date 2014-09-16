@@ -76,13 +76,11 @@ module Crocoa
 
     # ??? howto remove this. empty tuples for args seems not to be supported
     def alloc_init
-      @obj = nsclass.send_msg "alloc"
-      initialize(send_msg("init"))
+      @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), "init")
     end
 
     def alloc_init(init_method, arg)
-      @obj = nsclass.send_msg "alloc"
-      initialize(send_msg(init_method, arg))
+      @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), init_method, arg)
     end
 
     def finalize
