@@ -34,6 +34,12 @@ struct Bool
   end
 end
 
+class Pointer(T)
+  def to_objc
+    self
+  end
+end
+
 class Tuple
   def map_to_objc
     {% if true %}
@@ -47,7 +53,18 @@ class Tuple
 end
 
 module Crocoa
-  def self.send_msg(objc_target, selector_name, *args)
-    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
+  def self.send_msg(objc_target, selector_name)
+    objc_target.not_nil!
+    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc)
+  end
+
+  def self.send_msg(objc_target, selector_name, arg1)
+    objc_target.not_nil!
+    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, arg1.to_objc)
   end
 end
+
+
+# def self.send_msg(objc_target, selector_name, *args)
+#   LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
+# end

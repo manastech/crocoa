@@ -13,5 +13,9 @@ module Crocoa
     def name
       String.new(LibObjC.class_getName(@obj))
     end
+
+    def send_msg(message, *args)
+      Crocoa.send_msg(@obj, message, *args)
+    end
   end
 end

@@ -22,6 +22,6 @@ end
 
 class String
   def to_sel
-    Selector.new(self)
+    Crocoa::Selector.new(self)
   end
 end
