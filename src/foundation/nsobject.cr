@@ -35,7 +35,7 @@ module Crocoa
         {% for i in 0 ... (args || [] of Symbol).length %}
         # ???? new lines breaks
         # ???? unable to extract type restriction on its own macro
-          {{"arg#{i}".id}} {% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|Crocoa::NSString {% end %}{% end %})
+          {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|Crocoa::NSString {% end %}{% end %}{% end %})
 
         res = Crocoa.send_msg(self.to_objc, {{method_name}}
           {% for i in 0 ... (args || [] of Symbol).length %}
@@ -54,21 +54,22 @@ module Crocoa
           {% if returnType == :BOOL %}
             res.address != 0
           {% else %}
-            {% if returnType == :NSString %}
-              Crocoa::NSString.new(res)
+            {% if returnType == :unichar %}
+              res.address.chr
             {% else %}
-              {% if returnType == :id %}
-                klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
-                if klass.name == "__NSCFString"
-                  Crocoa::NSString.new(res)
-                else
-                  res
-                end
+              {% if returnType == :void || returnType == nil %}
+                self
               {% else %}
-                {% if returnType == :unichar %}
-                  res.address.chr
+                {% if returnType == :id %}
+                  klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
+                  if klass.name == "__NSCFString"
+                    Crocoa::NSString.new(res)
+                  else
+                    res
+                  end
                 {% else %}
-                  self
+                  # TODO should deal with subclasses using somethign like :id and NSObject+
+                  Crocoa::{{returnType.id}}.new(res)
                 {% end %}
               {% end %}
             {% end %}
@@ -96,6 +97,10 @@ module Crocoa
 
     def to_objc
       @obj.not_nil!
+    end
+
+    def ==(other : NSObject)
+      @obj == other.to_objc
     end
 
     def send_msg(message, *args)

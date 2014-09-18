@@ -8,10 +8,8 @@ module Crocoa
     objc_method "title", nil, :NSString
     objc_method "setTitle:", [:NSString], :void, "title="
 
-    # objc_method "- (void)setTitle:(NSString *)aString"
-
-    # def submenu=(menu : NSMenu)
-    #   msgSend "setSubmenu:", menu
-    # end
+    objc_method "hasSubmenu", nil, :BOOL, "has_submenu?"
+    objc_method "submenu", nil, :NSMenu, "submenu"
+    objc_method "setSubmenu:", [:NSMenu], :void, "submenu="
   end
 end

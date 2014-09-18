@@ -22,4 +22,13 @@ describe "NSMenuItem" do
     item.title = Crocoa::NSString.new("anotherTitle")
     item.title.to_s.should eq("anotherTitle")
   end
+
+  it "supports submenu" do
+    item = Crocoa::NSMenuItem.new "aTitle", nil, "q"
+    item.has_submenu?.should be_false
+
+    menu = Crocoa::NSMenu.new "aSubmenu"
+    item.submenu = menu
+    item.submenu.should eq(menu)
+  end
 end
