@@ -29,7 +29,7 @@ module Crocoa
       end
     end
 
-    macro objc_method(method_name, args = nil, returnType = nil, crystal_method = nil)
+    macro objc_method_helper(receiver, method_name, args = nil, returnType = nil, crystal_method = nil)
       def {{(crystal_method || method_name).id}}(
         # {{ args ||= [] of Symbol}}
         {% for i in 0 ... (args || [] of Symbol).length %}
@@ -37,7 +37,7 @@ module Crocoa
         # ???? unable to extract type restriction on its own macro
           {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|Crocoa::NSString {% end %}{% end %}{% end %})
 
-        res = Crocoa.send_msg(self.to_objc, {{method_name}}
+        res = Crocoa.send_msg({{receiver}}, {{method_name}}
           {% for i in 0 ... (args || [] of Symbol).length %}
             , objc_method_arg({{"arg#{i}".id}}, {{args[i]}})
           {% end %}
@@ -76,6 +76,14 @@ module Crocoa
           {% end %}
         {% end %}
       end
+    end
+
+    macro objc_method(method_name, args = nil, returnType = nil, crystal_method = nil)
+      objc_method_helper(self.to_objc, {{method_name}}, {{args}}, {{returnType}}, {{crystal_method}})
+    end
+
+    macro objc_static_method(method_name, args = nil, returnType = nil, crystal_method = nil)
+      objc_method_helper(nsclass.obj, {{method_name}}, {{args}}, {{returnType}}, {{"self.#{crystal_method.id || method_name.id}"}})
     end
 
     def self.nsclass
