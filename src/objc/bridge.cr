@@ -48,7 +48,9 @@ end
 
 class Tuple
   def map_to_objc
-    {% if true %}
+    {% if @length == 0 %}
+      self
+    {% else %}
       {
         {% for i in 0 ... @length %}
           self[{{i}}].to_objc,
@@ -59,28 +61,10 @@ class Tuple
 end
 
 module Crocoa
-  def self.send_msg(objc_target, selector_name)
+  def self.send_msg(objc_target, selector_name, *args)
     objc_target.not_nil!
-    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc)
-  end
-
-  def self.send_msg(objc_target, selector_name, arg1)
-    objc_target.not_nil!
-    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, arg1.to_objc)
-  end
-
-  def self.send_msg(objc_target, selector_name, arg1, arg2)
-    objc_target.not_nil!
-    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, arg1.to_objc, arg2.to_objc)
-  end
-
-  def self.send_msg(objc_target, selector_name, arg1, arg2, arg3)
-    objc_target.not_nil!
-    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, arg1.to_objc, arg2.to_objc, arg3.to_objc)
+    LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
   end
 end
 
 
-# def self.send_msg(objc_target, selector_name, *args)
-#   LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
-# end
