@@ -1,7 +1,7 @@
 require "../src/crocoa"
 include Crocoa
 
-`ibtool --errors --warnings --notices --output-format human-readable-text --compile Application.nib Application.xib`
+{{`ibtool --errors --warnings --notices --output-format human-readable-text --compile Application.nib Application.xib`}}
 
 mainNib = NSNib.new "Application", NSBundle.main_bundle
 
