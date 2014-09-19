@@ -3,25 +3,19 @@ macro objc_class(class_name)
     property :obj
   end
 
-  $x_{{class_name.id}}_objc_class = ObjCClass.new(LibObjC.objc_allocateClassPair(ObjCClass.new("NSObject").obj, {{class_name.id.stringify}}, 0_u32))
+  $x_{{class_name.id}}_objc_class = NSClass.new(LibObjC.objc_allocateClassPair(NSClass.new("NSObject").obj, {{class_name.id.stringify}}, 0_u32))
   # TODO
   # register instance variable for crystal self using class_addIvar
   #     use it in methods instead of creating new objects each time
   # call objc_registerClassPair then mapped_class could be fixed
 
   class {{class_name.id}}
-    def self.mapped_class
-      # the registered class is not been able to lookup by name
-      $x_{{class_name.id}}_objc_class.obj
+
+    def self.nsclass
+      $x_{{class_name.id}}_objc_class
     end
 
-    def initialize
-      @obj = initialize_using "init"
-    end
-
-    def initialize(pointer : UInt8*)
-      super
-    end
+    objc_method "init", nil, :id, "initialize"
 
     {{yield}}
   end
@@ -31,5 +25,5 @@ macro objc_export(method_name)
   $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL) {
     {{@class_name.id}}.new(obj).{{method_name.id}}
   }
-  LibObjC.class_addMethod($x_{{@class_name.id}}_objc_class.obj, {{method_name.id.stringify}}.to_sel, $x_{{@class_name.id}}_{{method_name.id}}_imp, "v@:")
+  LibObjC.class_addMethod($x_{{@class_name.id}}_objc_class.obj, {{method_name.id.stringify}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp, "v@:")
 end

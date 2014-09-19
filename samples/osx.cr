@@ -32,17 +32,17 @@ $t2 = NSTextField.new NSRect.new(0, 150, 200, 20)
 
 # b.action = "terminate:"
 
-# objc_class :Foo do
-#   def bar
-#     $t2.value = $t1.value
-#     puts "Hi there"
-#   end
+objc_class :Foo do
+  def bar
+    $t2.value = $t1.value
+    puts "Hi there"
+  end
 
-#   objc_export :bar
-# end
+  objc_export :bar
+end
 
-# b.target = Foo.new
-# b.action = "bar"
+b.target = Foo.new
+b.action = "bar"
 
 window.content_view << b
 window.content_view << $t1
