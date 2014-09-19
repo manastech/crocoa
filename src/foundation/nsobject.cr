@@ -10,16 +10,12 @@ module Crocoa
     macro objc_method_arg(value, type)
       {% if type == :NSUInteger %}
         {{value.id}}.to_nsuinteger
+      {% elsif type == :BOOL %}
+        {{value.id}} == true
+      {% elsif type == :NSString %}
+        {{value.id}}.is_a?(Crocoa::NSString) ? {{value.id}} : Crocoa::NSString.new({{value.id}})
       {% else %}
-        {% if type == :BOOL %}
-          {{value.id}} == true
-        {% else %}
-          {% if type == :NSString %}
-            {{value.id}}.is_a?(Crocoa::NSString) ? {{value.id}} : Crocoa::NSString.new({{value.id}})
-          {% else %}
-            {{value.id}}
-          {% end %}
-        {% end %}
+        {{value.id}}
       {% end %}
     end
 
@@ -30,8 +26,8 @@ module Crocoa
     end
 
     macro objc_method_helper(receiver, method_name, args = nil, returnType = nil, crystal_method = nil)
+      # TODO auto method tidy up.
       def {{(crystal_method || method_name).id}}(
-        # {{ args ||= [] of Symbol}}
         {% for i in 0 ... (args || [] of Symbol).length %}
         # ???? new lines breaks
         # ???? unable to extract type restriction on its own macro
@@ -43,37 +39,27 @@ module Crocoa
           {% end %}
         )
 
-        # TODO wrap result. NSObject+ if id
-        # TODO wrap result. specific class if specified
         # TODO wrap result if the class is exported from crystal and exposed to obj-c
         # ???? Posible to get all NSObject+ of the system? maybe using objc_class macro
-        # ???? unable to elsif
         {% if returnType == :NSUInteger %}
           res.address
+        {% elsif returnType == :BOOL %}
+          res.address != 0
+        {% elsif returnType == :unichar %}
+          res.address.chr
+        {% elsif returnType == :void || returnType == nil %}
+          self
+        {% elsif returnType == :id %}
+          klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
+          if klass.name == "__NSCFString"
+            Crocoa::NSString.new(res)
+          else
+            # TODO wrap result. NSObject+ if id
+            res
+          end
         {% else %}
-          {% if returnType == :BOOL %}
-            res.address != 0
-          {% else %}
-            {% if returnType == :unichar %}
-              res.address.chr
-            {% else %}
-              {% if returnType == :void || returnType == nil %}
-                self
-              {% else %}
-                {% if returnType == :id %}
-                  klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
-                  if klass.name == "__NSCFString"
-                    Crocoa::NSString.new(res)
-                  else
-                    res
-                  end
-                {% else %}
-                  # TODO should deal with subclasses using somethign like :id and NSObject+
-                  Crocoa::{{returnType.id}}.new(res)
-                {% end %}
-              {% end %}
-            {% end %}
-          {% end %}
+          # TODO should deal with subclasses using somethign like :id and NSObject+
+          Crocoa::{{returnType.id}}.new(res)
         {% end %}
       end
     end
