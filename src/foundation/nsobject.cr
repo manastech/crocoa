@@ -97,16 +97,7 @@ module Crocoa
       @obj == other.to_objc
     end
 
-    def send_msg(message, *args)
-      Crocoa.send_msg(to_objc, message, *args)
-    end
-
-    # ??? howto remove this. empty tuples for args seems not to be supported
-    def alloc_init
-      @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), "init")
-    end
-
-    def alloc_init(init_method, *args)
+    def alloc_init(init_method = "init", *args)
       @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), init_method, *args)
     end
 
