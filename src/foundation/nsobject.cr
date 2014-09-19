@@ -12,8 +12,12 @@ module Crocoa
         {{value.id}}.to_nsuinteger
       {% elsif type == :BOOL %}
         {{value.id}} == true
+      {% elsif type == :SEL %}
+        {{value.id}}.to_sel
       {% elsif type == :NSString %}
         {{value.id}}.is_a?(Crocoa::NSString) ? {{value.id}} : Crocoa::NSString.new({{value.id}})
+      {% elsif type == :const_char_ptr %}
+        {{value.id}}.cstr
       {% else %}
         {{value.id}}
       {% end %}
@@ -27,11 +31,9 @@ module Crocoa
 
     macro objc_method_helper(receiver, method_name, args = nil, returnType = nil, crystal_method = nil)
       # TODO auto method tidy up.
-      def {{(crystal_method || method_name).id}}(
-        {% for i in 0 ... (args || [] of Symbol).length %}
-        # ???? new lines breaks
-        # ???? unable to extract type restriction on its own macro
-          {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|Crocoa::NSString {% end %}{% end %}{% end %})
+      # ???? new lines breaks
+      # ???? unable to extract type restriction on its own macro
+      def {{(crystal_method || method_name).id}}({% for i in 0 ... (args || [] of Symbol).length %}{% if i > 0 %} , {% end %} {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|Crocoa::NSString {% end %}{% if args[i] == :SEL %}: Selector|String? {% end %}{% if args[i] == :const_char_ptr %}: String {% end %}{% end %}{% end %})
 
         res = Crocoa.send_msg({{receiver}}, {{method_name}}
           {% for i in 0 ... (args || [] of Symbol).length %}
@@ -41,7 +43,9 @@ module Crocoa
 
         # TODO wrap result if the class is exported from crystal and exposed to obj-c
         # ???? Posible to get all NSObject+ of the system? maybe using objc_class macro
-        {% if returnType == :NSUInteger %}
+        {% if crystal_method == "initialize" %}
+          @obj = res
+        {% elsif returnType == :NSUInteger %}
           res.address
         {% elsif returnType == :BOOL %}
           res.address != 0
@@ -65,7 +69,11 @@ module Crocoa
     end
 
     macro objc_method(method_name, args = nil, returnType = nil, crystal_method = nil)
-      objc_method_helper(self.to_objc, {{method_name}}, {{args}}, {{returnType}}, {{crystal_method}})
+      {% if crystal_method == "initialize" %}
+        objc_method_helper(nsclass.send_msg("alloc"), {{method_name}}, {{args}}, {{returnType}}, {{crystal_method}})
+      {% else %}
+        objc_method_helper(self.to_objc, {{method_name}}, {{args}}, {{returnType}}, {{crystal_method}})
+      {% end %}
     end
 
     macro objc_static_method(method_name, args = nil, returnType = nil, crystal_method = nil)
@@ -95,10 +103,6 @@ module Crocoa
 
     def ==(other : NSObject)
       @obj == other.to_objc
-    end
-
-    def alloc_init(init_method = "init", *args)
-      @obj = Crocoa.send_msg(nsclass.send_msg("alloc"), init_method, *args)
     end
 
     def finalize

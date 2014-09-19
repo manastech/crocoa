@@ -2,8 +2,6 @@ require "./nsobject"
 
 module Crocoa
   class NSAutoreleasePool < NSObject
-    def initialize
-      alloc_init
-    end
+    objc_method "init", nil, :id, "initialize"
   end
 end

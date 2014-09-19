@@ -1,7 +1,5 @@
 module Crocoa
   class NSMenu < NSObject
-    def initialize(title : String)
-      alloc_init "initWithTitle:", NSString.new(title)
-    end
+    objc_method "initWithTitle:", [:NSString], :id, "initialize"
   end
 end

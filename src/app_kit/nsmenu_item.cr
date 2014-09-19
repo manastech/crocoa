@@ -1,9 +1,6 @@
 module Crocoa
   class NSMenuItem < NSObject
-    def initialize(title : String, action : String?, keyEquivalent : String)
-      alloc_init "initWithTitle:action:keyEquivalent:",
-        NSString.new(title), action.to_sel, NSString.new(keyEquivalent)
-    end
+    objc_method "initWithTitle:action:keyEquivalent:", [:NSString, :SEL, :NSString], :id, "initialize"
 
     objc_method "title", nil, :NSString
     objc_method "setTitle:", [:NSString], :void, "title="

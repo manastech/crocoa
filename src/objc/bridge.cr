@@ -6,10 +6,6 @@ class Object
 end
 
 struct Nil
-  def to_sel
-    self
-  end
-
   def to_objc
     self
   end

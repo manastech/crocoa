@@ -17,11 +17,21 @@ module Crocoa
     def to_objc
       @sel
     end
+
+    def to_sel
+      self
+    end
   end
 end
 
 class String
   def to_sel
     Crocoa::Selector.new(self)
+  end
+end
+
+struct Nil
+  def to_sel
+    self
   end
 end

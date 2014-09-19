@@ -1,8 +1,6 @@
 module Crocoa
   class NSString < NSObject
-    def initialize(s : String)
-      alloc_init "initWithUTF8String:", s.cstr
-    end
+    objc_method "initWithUTF8String:", [:const_char_ptr], :instancetype, "initialize"
 
     def initialize(s : Crocoa::NSString)
       raise "" # ???? compiler limitation
