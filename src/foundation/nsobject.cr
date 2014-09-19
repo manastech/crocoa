@@ -11,7 +11,7 @@ module Crocoa
       {% if type == :NSUInteger %}
         {{value.id}}.to_nsuinteger
       {% elsif type == :BOOL %}
-        {{value.id}} == true
+        {{value.id}}
       {% elsif type == :SEL %}
         {{value.id}}.to_sel
       {% elsif type == :NSString %}

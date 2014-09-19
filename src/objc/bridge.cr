@@ -11,10 +11,17 @@ struct Nil
   end
 end
 
-
 struct Float
   def to_objc
     to_cgfloat
+  end
+
+  def to_nsuinteger
+    self.to_u64
+  end
+
+  def to_nsinteger
+    self.to_i64.to_nsinteger
   end
 
   def to_cgfloat
@@ -29,6 +36,14 @@ struct Int
 
   def to_nsuinteger
     self.to_u64
+  end
+
+  def to_nsinteger
+    self.to_i64
+  end
+
+  def to_cgfloat
+    self.to_f64.to_cgfloat
   end
 end
 
