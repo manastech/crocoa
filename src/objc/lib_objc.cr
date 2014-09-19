@@ -1,9 +1,10 @@
-lib LibObjC("objc")
+@[Link("objc")]
+lib LibObjC
   # type Id : UInt8* #UInt64
-  type SEL : Void*
+  type SEL = Void*
   # type Class : UInt8*
   # type size_t : UInt32
-  type IMP : Pointer(UInt8), LibObjC::SEL ->
+  type IMP = Pointer(UInt8), LibObjC::SEL ->
   # type IMP : Void*
 
   fun objc_getClass(UInt8*) : UInt8*

@@ -1,5 +1,6 @@
-lib LibCF("`echo \"-framework CoreFoundation\"`")
-  type CFString : Void*
+@[Link(framework: "CoreFoundation")]
+lib LibCF
+  type CFString = Void*
 
   fun str = __CFStringMakeConstantString(UInt8*) : CFString
 

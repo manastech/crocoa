@@ -1,4 +1,5 @@
-lib LibAppKit("`echo \"-framework AppKit\"`")
+@[Link(framework: "AppKit")]
+lib LibAppKit
   enum NSApplicationActivationPolicy < NSEnum
      Regular,
      Accessory,
