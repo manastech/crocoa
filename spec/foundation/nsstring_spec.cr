@@ -2,11 +2,11 @@ require "../spec_helper"
 
 describe "NSString" do
   def ns(s)
-    Crocoa::NSString.new(s)
+    NSString.new(s)
   end
 
   it "maps cococa NSString class" do
-    Crocoa::NSString.nsclass.name.should eq("NSString")
+    NSString.nsclass.name.should eq("NSString")
   end
 
   it "length" do
@@ -25,6 +25,6 @@ describe "NSString" do
   end
 
   it "should be a NSObject" do
-    ns("lorem").is_a?(Crocoa::NSObject)
+    ns("lorem").is_a?(NSObject)
   end
 end

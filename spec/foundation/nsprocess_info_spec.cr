@@ -2,7 +2,7 @@ require "../spec_helper"
 
 describe "NSProcessInfo" do
   def pi
-    Crocoa::NSProcessInfo.process_info
+    NSProcessInfo.process_info
   end
 
   it "can be created" do

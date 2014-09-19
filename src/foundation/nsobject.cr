@@ -15,7 +15,7 @@ module Crocoa
       {% elsif type == :SEL %}
         {{value.id}}.to_sel
       {% elsif type == :NSString %}
-        {{value.id}}.is_a?(Crocoa::NSString) ? {{value.id}} : Crocoa::NSString.new({{value.id}})
+        {{value.id}}.to_nsstring
       {% elsif type == :const_char_ptr %}
         {{value.id}}.cstr
       {% else %}
@@ -34,7 +34,7 @@ module Crocoa
       # TODO auto method tidy up.
       # ???? new lines breaks
       # ???? unable to extract type restriction on its own macro
-      def {{(crystal_method || method_name).id}}({% for i in 0 ... (args || [] of Symbol).length %}{% if i > 0 %} , {% end %} {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|Crocoa::NSString {% end %}{% if args[i] == :SEL %}: Selector|String? {% end %}{% if args[i] == :const_char_ptr %}: String {% end %}{% end %}{% end %})
+      def {{(crystal_method || method_name).id}}({% for i in 0 ... (args || [] of Symbol).length %}{% if i > 0 %} , {% end %} {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|NSString {% end %}{% if args[i] == :SEL %}: Selector|String? {% end %}{% if args[i] == :const_char_ptr %}: String {% end %}{% end %}{% end %})
 
         res = Crocoa.send_msg({{receiver}}, {{method_name}}
           {% for i in 0 ... (args || [] of Symbol).length %}
@@ -57,18 +57,18 @@ module Crocoa
         {% elsif returnType == :id %}
           klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
           if klass.name == "__NSCFString"
-            Crocoa::NSString.new(res)
+            NSString.new(res)
           elsif klass.name == "NSButton"
-            Crocoa::NSButton.new(res)
+            NSButton.new(res)
           elsif klass.name == "NSTextField"
-            Crocoa::NSTextField.new(res)
+            NSTextField.new(res)
           else
             # TODO wrap result. NSObject+ if id
             res
           end
         {% else %}
           # TODO should deal with subclasses using somethign like :id and NSObject+
-          Crocoa::{{returnType.id}}.new(res)
+          {{returnType.id}}.new(res)
         {% end %}
       end
     end

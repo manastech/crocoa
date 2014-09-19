@@ -3,7 +3,7 @@ require "./nscontrol_spec"
 
 describe "NSButton" do
   def new_button
-    Crocoa::NSButton.new(Crocoa::NSRect.new(0, 0, 200, 200))
+    NSButton.new(NSRect.new(0, 0, 200, 200))
   end
 
   describe_nscontrol new_button

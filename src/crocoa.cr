@@ -5,12 +5,6 @@ require "./app_kit/*"
 
 include Crocoa
 
-class String
-  def to_nsstring
-    NSString.new self
-  end
-end
-
 struct Float
   def to_nsinteger
     self.to_i64.to_nsinteger

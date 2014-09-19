@@ -2,7 +2,7 @@ require "../spec_helper"
 
 describe "NSView" do
   def new_view
-    Crocoa::NSView.new(Crocoa::NSRect.new(0, 0, 200, 200))
+    NSView.new(NSRect.new(0, 0, 200, 200))
   end
 
   it "can be created" do

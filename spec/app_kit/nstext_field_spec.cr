@@ -3,7 +3,7 @@ require "./nscontrol_spec"
 
 describe "NSTextField" do
   def new_text_field
-    Crocoa::NSTextField.new(Crocoa::NSRect.new(0, 0, 200, 200))
+    NSTextField.new(NSRect.new(0, 0, 200, 200))
   end
 
   describe_nscontrol new_text_field

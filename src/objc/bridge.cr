@@ -47,6 +47,12 @@ class Pointer(T)
   end
 end
 
+class String
+  def to_nsstring
+    NSString.new self
+  end
+end
+
 class Tuple
   def map_to_objc
     {% if @length == 0 %}

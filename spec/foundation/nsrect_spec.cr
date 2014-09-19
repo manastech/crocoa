@@ -2,7 +2,7 @@ require "../spec_helper"
 
 describe "NSRect" do
   it "it can be created" do
-    p = Crocoa::NSRect.new(10, 20, 100, 200)
+    p = NSRect.new(10, 20, 100, 200)
     p.x.should eq(10)
     p.y.should eq(20)
     p.origin.x.should eq(10)
