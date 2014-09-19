@@ -14,7 +14,11 @@ end
 
 struct Float
   def to_objc
-    self
+    to_cgfloat
+  end
+
+  def to_cgfloat
+    to_f64
   end
 end
 
@@ -29,6 +33,7 @@ struct Int
 end
 
 alias NSEnum = UInt64
+alias CGFloat = Float64
 
 struct Bool
   def to_objc

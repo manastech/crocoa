@@ -15,4 +15,8 @@ describe "NSApplication" do
     Crocoa::NSApp.activate_ignoring_other_apps = true
     Crocoa::NSApp.activate_ignoring_other_apps = false
   end
+
+  it "main_menu can be set" do
+    Crocoa::NSApp.main_menu = Crocoa::NSMenu.new "aTitle"
+  end
 end

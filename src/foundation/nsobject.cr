@@ -23,6 +23,7 @@ module Crocoa
       {% end %}
     end
 
+    # TODO remove and add options to objc_static_method
     macro objc_init_method(method_name, crystal_method = nil)
       def self.{{(crystal_method || method_name).id}}
         self.new(nsclass.send_msg({{method_name}}))

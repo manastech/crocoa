@@ -22,10 +22,6 @@ struct Nil
 end
 
 struct Float
-  def to_cgfloat
-    self.to_f64
-  end
-
   def to_nsinteger
     self.to_i64.to_nsinteger
   end
