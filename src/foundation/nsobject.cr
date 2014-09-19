@@ -58,6 +58,10 @@ module Crocoa
           klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc))
           if klass.name == "__NSCFString"
             Crocoa::NSString.new(res)
+          elsif klass.name == "NSButton"
+            Crocoa::NSButton.new(res)
+          elsif klass.name == "NSTextField"
+            Crocoa::NSTextField.new(res)
           else
             # TODO wrap result. NSObject+ if id
             res
@@ -94,6 +98,7 @@ module Crocoa
       retain
     end
 
+    # TODO only in non abstract classes
     macro inherited
       objc_class
     end
