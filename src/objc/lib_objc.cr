@@ -10,15 +10,20 @@ lib LibObjC
   type IMP4 = Pointer(UInt8), LibObjC::SEL, Pointer(UInt8) ->
 
   type Protocol = Void*
+  alias Class = UInt8*
 
-  fun objc_getClass(UInt8*) : UInt8*
-  fun class_getName(UInt8*) : UInt8*
+  fun objc_getClass(UInt8*) : Class
+  fun class_getName(Class) : UInt8*
+
+  fun objc_getClassList(Class*, UInt64) : UInt64
+  fun class_getSuperclass(Class) : Class
+
   fun objc_msgSend(UInt8*, SEL, ...) : UInt8*
 
   fun sel_registerName(UInt8*) : SEL
   fun sel_getName(SEL) : UInt8*
 
-  fun objc_allocateClassPair(UInt8*, UInt8*, UInt32) : UInt8*
+  fun objc_allocateClassPair(Class, UInt8*, UInt32) : UInt8*
   fun objc_registerClassPair(UInt8*) : Void
 
   enum AssociationPolicy < Int32
@@ -37,5 +42,5 @@ lib LibObjC
   fun class_addMethod4 = class_addMethod(UInt8*, SEL, IMP4, UInt8*) : UInt8
 
   fun objc_getProtocol(UInt8*) : Protocol
-  fun class_addProtocol(UInt8*, Protocol) : UInt8
+  fun class_addProtocol(Class, Protocol) : UInt8
 end
