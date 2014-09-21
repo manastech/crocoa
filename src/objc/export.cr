@@ -27,8 +27,15 @@ end
 
 macro objc_export(method_name)
   $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL) {
-    # TODO if null, should create a new crystal obj
-    crystal_obj = LibObjC.objc_getAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key) as {{@class_name.id}}
+    ptr = LibObjC.objc_getAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key)
+    if ptr.nil?
+      # if there is no associated object, it was created by [[alloc] init] and
+      # there is no crystal object that corresponds to obj
+      crystal_obj = {{@class_name.id}}.new(obj)
+      LibObjC.objc_setAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key, Pointer(UInt8).new(crystal_obj.object_id), LibObjC::AssociationPolicy::ASSIGN)
+    else
+      crystal_obj = ptr as {{@class_name.id}}
+    end
     crystal_obj.{{method_name.id}}
   }
   LibObjC.class_addMethod($x_{{@class_name.id}}_objc_class.obj, {{method_name.id.stringify}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp, "v@:")
