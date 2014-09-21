@@ -7,9 +7,19 @@ macro objc_class(class_name)
   # register instance variable for crystal self using class_addIvar
   #     use it in methods instead of creating new objects each time
   # call objc_registerClassPair then mapped_class could be fixed
+  $x_{{class_name.id}}_assoc_key = "crystal_obj"
 
   class {{class_name.id}} < NSObject
-    objc_method "init", nil, :id, "initialize"
+    # objc_method "init", nil, :id, "initialize"
+
+    def self.nsclass
+      $x_{{class_name.id}}_objc_class
+    end
+
+    def initialize
+      initialize(Crocoa.send_msg(Crocoa.send_msg(nsclass.obj, "alloc"), "init"))
+      LibObjC.objc_setAssociatedObject(to_objc, $x_{{class_name.id}}_assoc_key, Pointer(UInt8).new(self.object_id), LibObjC::AssociationPolicy::ASSIGN)
+    end
 
     {{yield}}
   end
@@ -17,7 +27,9 @@ end
 
 macro objc_export(method_name)
   $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL) {
-    {{@class_name.id}}.new(obj).{{method_name.id}}
+    # TODO if null, should create a new crystal obj
+    crystal_obj = LibObjC.objc_getAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key) as {{@class_name.id}}
+    crystal_obj.{{method_name.id}}
   }
   LibObjC.class_addMethod($x_{{@class_name.id}}_objc_class.obj, {{method_name.id.stringify}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp, "v@:")
 end

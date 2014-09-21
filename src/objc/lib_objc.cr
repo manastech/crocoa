@@ -21,6 +21,16 @@ lib LibObjC
   fun objc_allocateClassPair(UInt8*, UInt8*, UInt32) : UInt8*
   fun objc_registerClassPair(UInt8*) : Void
 
+  enum AssociationPolicy < Int32
+    ASSIGN  = 0u64,
+    RETAIN_NONATOMIC  = 1u64,
+    COPY_NONATOMIC  = 3u64,
+    RETAIN  = 01401u64,
+    COPY  = 01403u64
+  end
+  fun objc_getAssociatedObject (UInt8*, UInt8*) : UInt8*;
+  fun objc_setAssociatedObject (UInt8*, UInt8*, UInt8*, AssociationPolicy) : Void
+
   fun class_addMethod(UInt8*, SEL, IMP, UInt8*) : UInt8
   fun class_addMethod2 = class_addMethod(UInt8*, SEL, IMP2, UInt8*) : UInt8
   fun class_addMethod3 = class_addMethod(UInt8*, SEL, IMP3, UInt8*) : UInt8
