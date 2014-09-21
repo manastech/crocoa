@@ -21,6 +21,10 @@ module Crocoa
     def to_sel
       self
     end
+
+    def to_s(io)
+      io << name
+    end
   end
 end
 

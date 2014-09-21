@@ -11,6 +11,12 @@ lib LibObjC
 
   type Protocol = Void*
   alias Class = UInt8*
+  type Method = Void*
+
+  struct ObjcMethodDescription
+    name : SEL
+    types : UInt8*
+  end
 
   fun objc_getClass(UInt8*) : Class
   fun class_getName(Class) : UInt8*
@@ -40,6 +46,14 @@ lib LibObjC
   fun class_addMethod2 = class_addMethod(UInt8*, SEL, IMP2, UInt8*) : UInt8
   fun class_addMethod3 = class_addMethod(UInt8*, SEL, IMP3, UInt8*) : UInt8
   fun class_addMethod4 = class_addMethod(UInt8*, SEL, IMP4, UInt8*) : UInt8
+
+  fun class_copyMethodList(Class, UInt32*) : Method*
+  fun method_getName(Method) : SEL
+  fun method_copyArgumentType(Method, UInt64) : UInt8*
+  fun method_copyReturnType(Method) : UInt8*
+  fun method_getNumberOfArguments(Method) : UInt64
+  fun method_getTypeEncoding(Method) : UInt8*
+  fun method_getDescription(Method) : ObjcMethodDescription*
 
   fun objc_getProtocol(UInt8*) : Protocol
   fun class_addProtocol(Class, Protocol) : UInt8
