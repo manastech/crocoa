@@ -1,20 +1,14 @@
 macro objc_class(class_name)
-  class {{class_name.id}} < NSObject
-    property :obj
-  end
+  $_{{class_name.id}}_classPair = LibObjC.objc_allocateClassPair(NSClass.new("NSObject").obj, {{class_name.id.stringify}}, 0_u32)
+  LibObjC.objc_registerClassPair($_{{class_name.id}}_classPair)
 
-  $x_{{class_name.id}}_objc_class = NSClass.new(LibObjC.objc_allocateClassPair(NSClass.new("NSObject").obj, {{class_name.id.stringify}}, 0_u32))
+  $x_{{class_name.id}}_objc_class = NSClass.new($_{{class_name.id}}_classPair)
   # TODO
   # register instance variable for crystal self using class_addIvar
   #     use it in methods instead of creating new objects each time
   # call objc_registerClassPair then mapped_class could be fixed
 
-  class {{class_name.id}}
-
-    def self.nsclass
-      $x_{{class_name.id}}_objc_class
-    end
-
+  class {{class_name.id}} < NSObject
     objc_method "init", nil, :id, "initialize"
 
     {{yield}}

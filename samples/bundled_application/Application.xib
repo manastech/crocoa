@@ -6,8 +6,13 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application">
+            <connections>
+                <outlet property="delegate" destination="u2J-Ey-SEf" id="zdm-x6-8ow"/>
+            </connections>
+        </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <customObject id="u2J-Ey-SEf" customClass="MyAppDelegate"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
                 <menuItem title="NewApplication" id="1Xt-HY-uBw">

@@ -18,4 +18,6 @@ lib LibCF
     origin : Point
     size : Size
   end
+
+  fun nslog = NSLog(UInt8*, ...)
 end

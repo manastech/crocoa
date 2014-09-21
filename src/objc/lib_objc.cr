@@ -5,7 +5,11 @@ lib LibObjC
   # type Class : UInt8*
   # type size_t : UInt32
   type IMP = Pointer(UInt8), LibObjC::SEL ->
-  # type IMP : Void*
+  type IMP2 = Pointer(UInt8), LibObjC::SEL, Pointer(UInt8) ->
+  type IMP3 = Pointer(UInt8), LibObjC::SEL -> Pointer(UInt8)
+  type IMP4 = Pointer(UInt8), LibObjC::SEL, Pointer(UInt8) ->
+
+  type Protocol = Void*
 
   fun objc_getClass(UInt8*) : UInt8*
   fun class_getName(UInt8*) : UInt8*
@@ -15,7 +19,13 @@ lib LibObjC
   fun sel_getName(SEL) : UInt8*
 
   fun objc_allocateClassPair(UInt8*, UInt8*, UInt32) : UInt8*
+  fun objc_registerClassPair(UInt8*) : Void
 
   fun class_addMethod(UInt8*, SEL, IMP, UInt8*) : UInt8
+  fun class_addMethod2 = class_addMethod(UInt8*, SEL, IMP2, UInt8*) : UInt8
+  fun class_addMethod3 = class_addMethod(UInt8*, SEL, IMP3, UInt8*) : UInt8
+  fun class_addMethod4 = class_addMethod(UInt8*, SEL, IMP4, UInt8*) : UInt8
 
+  fun objc_getProtocol(UInt8*) : Protocol
+  fun class_addProtocol(UInt8*, Protocol) : UInt8
 end
