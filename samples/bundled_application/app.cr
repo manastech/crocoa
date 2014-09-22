@@ -8,13 +8,13 @@ end
 #   `touch /Users/bcardiff/Work/Manas/crystal/crocoa/samples/bundled_application/xx-init-coder.txt`
 #   obj
 # }
-# LibObjC.class_addMethod2($x_MyAppDelegate_objc_class.obj, "initWithCoder:".to_sel.to_objc, $x_MyAppDelegate_objc_class_initWithCoder_imp, "@@:@")
+# LibObjC.class_addMethod($x_MyAppDelegate_objc_class.obj, "initWithCoder:".to_sel.to_objc, $x_MyAppDelegate_objc_class_initWithCoder_imp.pointer as LibObjC::IMP, "@@:@")
 
 # $x_MyAppDelegate_objc_class_init_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL) {
 #   `touch /Users/bcardiff/Work/Manas/crystal/crocoa/samples/bundled_application/xx-init.txt`
 #   obj
 # }
-# LibObjC.class_addMethod3($x_MyAppDelegate_objc_class.obj, "init".to_sel.to_objc, $x_MyAppDelegate_objc_class_init_imp, "@@:")
+# LibObjC.class_addMethod($x_MyAppDelegate_objc_class.obj, "init".to_sel.to_objc, $x_MyAppDelegate_objc_class_init_imp.pointer as LibObjC::IMP, "@@:")
 
 
 # a = LibObjC.objc_msgSend($x_MyAppDelegate_objc_class.obj, "alloc".to_sel.to_objc)
@@ -27,7 +27,7 @@ $AppDel_didFinishLaunching = -> (obj : UInt8*, _cmd : LibObjC::SEL, aNotificatio
   Crocoa.nslog "didFinishLaunching"
 }
 
-LibObjC.class_addMethod4($x_MyAppDelegate_objc_class.obj, "applicationDidFinishLaunching:".to_sel.to_objc, $AppDel_didFinishLaunching, "v@:@")
+LibObjC.class_addMethod($x_MyAppDelegate_objc_class.obj, "applicationDidFinishLaunching:".to_sel.to_objc, $AppDel_didFinishLaunching.pointer as LibObjC::IMP, "v@:@")
 
 
 LibAppKit.ns_application_main 0u32, nil

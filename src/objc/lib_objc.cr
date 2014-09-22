@@ -4,10 +4,7 @@ lib LibObjC
   type SEL = Void*
   # type Class : UInt8*
   # type size_t : UInt32
-  type IMP = Pointer(UInt8), LibObjC::SEL ->
-  type IMP2 = Pointer(UInt8), LibObjC::SEL, Pointer(UInt8) ->
-  type IMP3 = Pointer(UInt8), LibObjC::SEL -> Pointer(UInt8)
-  type IMP4 = Pointer(UInt8), LibObjC::SEL, Pointer(UInt8) ->
+  alias IMP = Void* # Pointer(UInt8), LibObjC::SEL, ... -> ?
 
   type Protocol = Void*
   alias Class = UInt8*
@@ -43,9 +40,6 @@ lib LibObjC
   fun objc_setAssociatedObject (UInt8*, UInt8*, UInt8*, AssociationPolicy) : Void
 
   fun class_addMethod(UInt8*, SEL, IMP, UInt8*) : UInt8
-  fun class_addMethod2 = class_addMethod(UInt8*, SEL, IMP2, UInt8*) : UInt8
-  fun class_addMethod3 = class_addMethod(UInt8*, SEL, IMP3, UInt8*) : UInt8
-  fun class_addMethod4 = class_addMethod(UInt8*, SEL, IMP4, UInt8*) : UInt8
 
   fun class_copyMethodList(Class, UInt32*) : Method*
   fun method_getName(Method) : SEL
