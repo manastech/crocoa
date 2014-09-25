@@ -2,7 +2,7 @@ module Crocoa
   class NSClass
     property :obj
 
-    def initialize(c : UInt8*)
+    def initialize(c : LibObjC::Class)
       @obj = c
     end
 
@@ -11,7 +11,7 @@ module Crocoa
     end
 
     def name
-      String.new(LibObjC.class_getName(@obj))
+      "#{String.new(LibObjC.class_getName(@obj))}:#{@obj.address.to_s(16)}"
     end
 
     def superclass
@@ -23,8 +23,12 @@ module Crocoa
       end
     end
 
+    def metaclass
+      NSClass.new(@obj.value.isa)
+    end
+
     def send_msg(message, *args)
-      Crocoa.send_msg(@obj, message, *args)
+      Crocoa.send_msg(@obj as Pointer(UInt8), message, *args)
     end
 
     def to_s(io)
