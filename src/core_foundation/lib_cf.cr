@@ -1,3 +1,4 @@
+@[Link(framework: "Foundation")]
 @[Link(framework: "CoreFoundation")]
 lib LibCF
   type CFString = Void*

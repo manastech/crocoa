@@ -11,7 +11,7 @@ module Crocoa
     end
 
     def name
-      "#{String.new(LibObjC.class_getName(@obj))}:#{@obj.address.to_s(16)}"
+      String.new(LibObjC.class_getName(@obj))
     end
 
     def superclass
