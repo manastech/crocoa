@@ -1,5 +1,7 @@
 module Crocoa
   class NSTextField < NSControl
+    import_class
+
     def value
       self.string_value
     end

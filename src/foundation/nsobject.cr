@@ -85,9 +85,20 @@ module Crocoa
       objc_method_helper(nsclass.obj as Pointer(UInt8), {{method_name}}, {{args}}, {{returnType}}, {{"self.#{crystal_method.id || method_name.id}"}})
     end
 
-    def self.nsclass
-      NSClass.new self.to_s["Crocoa::".length..-1]
+    macro import_class(objc_class_name = nil)
+      def self.nsclass
+        class_name = begin
+          {% if objc_class_name %}
+            {{objc_class_name}}
+          {% else %}
+            self.to_s["Crocoa::".length..-1]
+          {% end %}
+        end
+        NSClass.new class_name
+      end
     end
+
+    import_class
 
     def nsclass
       self.class.nsclass

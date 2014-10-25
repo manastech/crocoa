@@ -1,5 +1,7 @@
 module Crocoa
   class NSNib < NSObject
+    import_class
+
     objc_method "initWithNibNamed:bundle:", ["NSString", "NSBundle"], "id", "initialize"
 
     # fix NSArray**

@@ -1,5 +1,7 @@
 module Crocoa
   class NSApplication < NSObject
+    import_class
+
     objc_init_method "sharedApplication", "shared_application"
 
     objc_method "run"

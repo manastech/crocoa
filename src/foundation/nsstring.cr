@@ -1,5 +1,7 @@
 module Crocoa
   class NSString < NSObject
+    import_class
+
     objc_method "initWithUTF8String:", ["const_char_ptr"], "instancetype", "initialize"
 
     def initialize(s : NSString)

@@ -1,5 +1,7 @@
 module Crocoa
   class NSWindow < NSResponder
+    import_class
+
     objc_method "initWithContentRect:styleMask:backing:defer:", ["NSRect","NSUInteger","NSBackingStoreType","BOOL"], "id", "initialize"
 
     # TODO: options[:sret] in order to use objc_msgSend_stret

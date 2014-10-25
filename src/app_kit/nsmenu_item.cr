@@ -1,5 +1,7 @@
 module Crocoa
   class NSMenuItem < NSObject
+    import_class
+
     objc_method "initWithTitle:action:keyEquivalent:", ["NSString", "SEL", "NSString"], "id", "initialize"
 
     objc_method "title", nil, "NSString"

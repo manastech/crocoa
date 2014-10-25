@@ -2,6 +2,8 @@ require "./NSView"
 
 module Crocoa
   abstract class NSControl < NSView
+    import_class
+
     macro inherited
       objc_method "initWithFrame:", ["NSRect"], "id", "initialize"
     end

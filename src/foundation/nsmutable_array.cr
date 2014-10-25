@@ -2,6 +2,8 @@ require "nsobject"
 
 module Crocoa
   class NSMutableArray < NSObject
+    import_class
+
     objc_method "init", nil, "id", "initialize"
 
     objc_method "count", nil, "NSUInteger"
