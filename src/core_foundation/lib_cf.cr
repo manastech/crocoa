@@ -21,4 +21,6 @@ lib LibCF
   end
 
   fun nslog = NSLog(UInt8*, ...)
+
+  fun force : Void
 end

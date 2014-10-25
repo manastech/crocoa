@@ -1,9 +1,6 @@
 require "../src/crocoa"
 include Crocoa
 
-# force load libs
-Crocoa.nslog "init.."
-
 klass = LibObjC.objc_getClass("NSObject")
 sel = "init"
 

@@ -10,14 +10,14 @@ macro objc_class(class_name)
   $x_{{class_name.id}}_assoc_key = "crystal_obj"
 
   class {{class_name.id}} < NSObject
-    # objc_method "init", nil, :id, "initialize"
+    # objc_method "init", nil, "id", "initialize"
 
     def self.nsclass
       $x_{{class_name.id}}_objc_class
     end
 
     def initialize
-      initialize(Crocoa.send_msg(Crocoa.send_msg(nsclass.obj, "alloc"), "init"))
+      initialize(Crocoa.send_msg(nsclass.send_msg("alloc"), "init"))
       LibObjC.objc_setAssociatedObject(to_objc, $x_{{class_name.id}}_assoc_key, Pointer(UInt8).new(self.object_id), LibObjC::AssociationPolicy::ASSIGN)
     end
 

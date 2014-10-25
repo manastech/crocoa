@@ -35,8 +35,8 @@ lib LibObjC
   fun sel_registerName(UInt8*) : SEL
   fun sel_getName(SEL) : UInt8*
 
-  fun objc_allocateClassPair(Class, UInt8*, UInt32) : UInt8*
-  fun objc_registerClassPair(UInt8*) : Void
+  fun objc_allocateClassPair(Class, UInt8*, UInt32) : Class
+  fun objc_registerClassPair(Class) : Void
 
   enum AssociationPolicy < Int32
     ASSIGN  = 0u64,
@@ -48,7 +48,7 @@ lib LibObjC
   fun objc_getAssociatedObject (UInt8*, UInt8*) : UInt8*;
   fun objc_setAssociatedObject (UInt8*, UInt8*, UInt8*, AssociationPolicy) : Void
 
-  fun class_addMethod(UInt8*, SEL, IMP, UInt8*) : UInt8
+  fun class_addMethod(Class, SEL, IMP, UInt8*) : UInt8
   fun class_replaceMethod(UInt8*, SEL, IMP, UInt8*) : IMP
 
   fun class_copyMethodList(Class, UInt32*) : Method*

@@ -25,4 +25,6 @@ lib LibAppKit
                                LibCF::CFString, LibCF::CFString, LibCF::CFString, ...);
 
   fun ns_application_main = NSApplicationMain(UInt32, UInt8**) : UInt32
+
+  fun force : Void
 end

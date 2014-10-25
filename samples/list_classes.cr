@@ -1,9 +1,6 @@
 require "../src/crocoa"
 include Crocoa
 
-# force load libs
-Crocoa.nslog "list classes"
-
 def list_methods(nsclass, prefix)
   method_count = 0u32
   methods = LibObjC.class_copyMethodList(nsclass.obj, out method_count)

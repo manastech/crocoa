@@ -66,6 +66,10 @@ class String
   def to_nsstring
     NSString.new self
   end
+
+  def to_objc
+    self
+  end
 end
 
 class Tuple

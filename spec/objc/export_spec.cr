@@ -37,7 +37,7 @@ describe "export" do
   end
 
   it "should keep identity of object created from objc" do
-    obj = Crocoa.send_msg(Crocoa.send_msg(MyFooBar.nsclass.obj, "alloc"), "init")
+    obj = Crocoa.send_msg(MyFooBar.nsclass.send_msg("alloc"), "init")
     Crocoa.send_msg(obj, "inc")
     o = LibObjC.objc_getAssociatedObject(obj, $x_MyFooBar_assoc_key) as MyFooBar
     o.x.should eq(6)

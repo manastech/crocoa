@@ -8,15 +8,15 @@ module Crocoa
     end
 
     macro objc_method_arg(value, type)
-      {% if type == :NSUInteger %}
+      {% if type == "NSUInteger" %}
         {{value.id}}.to_nsuinteger
-      {% elsif type == :BOOL %}
+      {% elsif type == "BOOL" %}
         {{value.id}}
-      {% elsif type == :SEL %}
+      {% elsif type == "SEL" %}
         {{value.id}}.to_sel
-      {% elsif type == :NSString %}
+      {% elsif type == "NSString" %}
         {{value.id}}.to_nsstring
-      {% elsif type == :const_char_ptr %}
+      {% elsif type == "const_char_ptr" %}
         {{value.id}}.cstr
       {% else %}
         {{value.id}}
@@ -46,15 +46,15 @@ module Crocoa
         # ???? Posible to get all NSObject+ of the system? maybe using objc_class macro
         {% if crystal_method == "initialize" %}
           @obj = res
-        {% elsif returnType == :NSUInteger %}
+        {% elsif returnType == "NSUInteger" %}
           res.address
-        {% elsif returnType == :BOOL %}
+        {% elsif returnType == "BOOL" %}
           res.address != 0
-        {% elsif returnType == :unichar %}
+        {% elsif returnType == "unichar" %}
           res.address.chr
-        {% elsif returnType == :void || returnType == nil %}
+        {% elsif returnType == "void" || returnType == nil %}
           self
-        {% elsif returnType == :id %}
+        {% elsif returnType == "id" %}
           klass = NSClass.new(LibObjC.objc_msgSend(res, "class".to_sel.to_objc) as LibObjC::Class)
           if klass.name == "__NSCFString"
             NSString.new(res)
@@ -67,7 +67,7 @@ module Crocoa
             res
           end
         {% else %}
-          # TODO should deal with subclasses using somethign like :id and NSObject+
+          # TODO should deal with subclasses using something like id and NSObject+
           {{returnType.id}}.new(res)
         {% end %}
       end
@@ -82,7 +82,7 @@ module Crocoa
     end
 
     macro objc_static_method(method_name, args = nil, returnType = nil, crystal_method = nil)
-      objc_method_helper(nsclass.obj, {{method_name}}, {{args}}, {{returnType}}, {{"self.#{crystal_method.id || method_name.id}"}})
+      objc_method_helper(nsclass.obj as Pointer(UInt8), {{method_name}}, {{args}}, {{returnType}}, {{"self.#{crystal_method.id || method_name.id}"}})
     end
 
     def self.nsclass
@@ -118,6 +118,6 @@ module Crocoa
     objc_method "retain"
     objc_method "release"
 
-    objc_method "performSelectorOnMainThread:withObject:waitUntilDone:", [:SEL, :id, :BOOL], :void, "perform_selector_on_main_thread_with_object_wait_until_done"
+    objc_method "performSelectorOnMainThread:withObject:waitUntilDone:", ["SEL", "id", "BOOL"], "void", "perform_selector_on_main_thread_with_object_wait_until_done"
   end
 end
