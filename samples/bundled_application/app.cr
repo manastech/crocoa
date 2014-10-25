@@ -1,7 +1,8 @@
 require "../../src/crocoa"
 include Crocoa
 
-objc_class :MyAppDelegate do
+class MyAppDelegate < NSObject
+  export_class
 end
 
 # $x_MyAppDelegate_objc_class_initWithCoder_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL, _coder : UInt8*) {
@@ -21,23 +22,25 @@ end
 # LibObjC.objc_msgSend(a, "init".to_sel.to_objc)
 # `touch /Users/bcardiff/Work/Manas/crystal/crocoa/samples/bundled_application/xx-foo.txt`
 
-LibObjC.class_addProtocol($x_MyAppDelegate_objc_class.obj,LibObjC.objc_getProtocol("NSApplicationDelegate"))
+LibObjC.class_addProtocol(MyAppDelegate.nsclass.obj, LibObjC.objc_getProtocol("NSApplicationDelegate"))
 
 $AppDel_didFinishLaunching = -> (obj : UInt8*, _cmd : LibObjC::SEL, aNotification : UInt8*) {
   Crocoa.nslog "didFinishLaunching"
 }
 
-LibObjC.class_addMethod($x_MyAppDelegate_objc_class.obj, "applicationDidFinishLaunching:".to_sel.to_objc, $AppDel_didFinishLaunching.pointer as LibObjC::IMP, "v@:@")
+LibObjC.class_addMethod(MyAppDelegate.nsclass.obj, "applicationDidFinishLaunching:".to_sel.to_objc, $AppDel_didFinishLaunching.pointer as LibObjC::IMP, "v@:@")
 
 
 LibAppKit.ns_application_main 0u32, nil
 
-# objc_class :Foo do
+# class Foo < NSObject
+#   export_class
+#
 #   def mySelector()
 #     $t2.value = $t1.value
 #     puts "Hi there"
 #   end
-
-#   objc_export "mySelector:"
+#
+#   export "mySelector:"
 # end
 

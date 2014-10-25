@@ -2,7 +2,9 @@ require "../spec_helper"
 
 describe "export" do
 
-  objc_class :MyFooBar do
+  class MyFooBar < NSObject
+    export_class
+
     property x
 
     def initialize
@@ -21,7 +23,7 @@ describe "export" do
 
       @x = x
     end
-    objc_export inc
+    export inc
   end
 
   it "should register classes" do

@@ -98,6 +98,37 @@ module Crocoa
       end
     end
 
+    macro export_class(objc_class_name = nil)
+      $_{{@class_name.id}}_classPair = LibObjC.objc_allocateClassPair({{@superclass}}.nsclass.obj, {{@class_name}}, 0_u32)
+      LibObjC.objc_registerClassPair($_{{@class_name.id}}_classPair)
+      $x_{{@class_name.id}}_assoc_key = "crystal_obj"
+
+      def self.nsclass
+        NSClass.new $_{{@class_name.id}}_classPair
+      end
+
+      def initialize
+        initialize(Crocoa.send_msg(nsclass.send_msg("alloc"), "init"))
+        LibObjC.objc_setAssociatedObject(to_objc, $x_{{@class_name.id}}_assoc_key, Pointer(UInt8).new(self.object_id), LibObjC::AssociationPolicy::ASSIGN)
+      end
+    end
+
+    macro export(method_name)
+      $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL) {
+        ptr = LibObjC.objc_getAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key)
+        if ptr.nil?
+          # if there is no associated object, it was created by [[alloc] init] and
+          # there is no crystal object that corresponds to obj
+          crystal_obj = {{@class_name.id}}.new(obj)
+          LibObjC.objc_setAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key, Pointer(UInt8).new(crystal_obj.object_id), LibObjC::AssociationPolicy::ASSIGN)
+        else
+          crystal_obj = ptr as {{@class_name.id}}
+        end
+        crystal_obj.{{method_name.id}}
+      }
+      LibObjC.class_addMethod($_{{@class_name.id}}_classPair, {{method_name.id.stringify}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp.pointer as LibObjC::IMP, "v@:")
+    end
+
     import_class
 
     def nsclass

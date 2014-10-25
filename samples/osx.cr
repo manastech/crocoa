@@ -32,13 +32,14 @@ $t2 = NSTextField.new NSRect.new(0, 150, 200, 20)
 
 # b.action = "terminate:"
 
-objc_class :Foo do
+class Foo < NSObject
+  export_class
+
   def bar
     $t2.value = $t1.value
     puts "Hi there"
   end
-
-  objc_export :bar
+  export :bar
 end
 
 b.target = Foo.new
