@@ -1,8 +1,18 @@
 require "../../src/crocoa"
 include Crocoa
 
+# require "../list_classes"
+
 class MyAppDelegate < NSObject
   export_class
+
+  LibObjC.class_addProtocol(MyAppDelegate.nsclass.obj, LibObjC.objc_getProtocol("NSApplicationDelegate"))
+
+  def did_finish_launching(notification)
+    Crocoa.nslog "didFinishLaunching"
+  end
+  export did_finish_launching, "applicationDidFinishLaunching:", "v@:@"
+
 end
 
 # $x_MyAppDelegate_objc_class_initWithCoder_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL, _coder : UInt8*) {
@@ -22,14 +32,7 @@ end
 # LibObjC.objc_msgSend(a, "init".to_sel.to_objc)
 # `touch /Users/bcardiff/Work/Manas/crystal/crocoa/samples/bundled_application/xx-foo.txt`
 
-LibObjC.class_addProtocol(MyAppDelegate.nsclass.obj, LibObjC.objc_getProtocol("NSApplicationDelegate"))
-
-$AppDel_didFinishLaunching = -> (obj : UInt8*, _cmd : LibObjC::SEL, aNotification : UInt8*) {
-  Crocoa.nslog "didFinishLaunching"
-}
-
-LibObjC.class_addMethod(MyAppDelegate.nsclass.obj, "applicationDidFinishLaunching:".to_sel.to_objc, $AppDel_didFinishLaunching.pointer as LibObjC::IMP, "v@:@")
-
+# list_class MyAppDelegate.nsclass
 
 LibAppKit.ns_application_main 0u32, nil
 

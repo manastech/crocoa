@@ -113,8 +113,10 @@ module Crocoa
       end
     end
 
-    macro export(method_name)
-      $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL) {
+    macro export(method_name, selector = nil, types_encoding = nil)
+      # {% selector ||= method_name %}
+      # {% types_encoding ||= "v@:" %}
+      $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL {%for t,i in (types_encoding||"v@:")[3..-1].chars%}{{", a#{i} : UInt8*".id}}{%end%}) {
         ptr = LibObjC.objc_getAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key)
         if ptr.nil?
           # if there is no associated object, it was created by [[alloc] init] and
@@ -124,9 +126,10 @@ module Crocoa
         else
           crystal_obj = ptr as {{@class_name.id}}
         end
-        crystal_obj.{{method_name.id}}
+        # TODO getAssociatedObject for params
+        crystal_obj.{{method_name.id}}({%for t,i in (types_encoding||"v@:")[3..-1].chars%}{%if i > 0%}{{",".id}}{%end%}{{"a#{i}".id}}{%end%})
       }
-      LibObjC.class_addMethod($_{{@class_name.id}}_classPair, {{method_name.id.stringify}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp.pointer as LibObjC::IMP, "v@:")
+      LibObjC.class_addMethod($_{{@class_name.id}}_classPair, {{(selector || method_name)}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp.pointer as LibObjC::IMP, {{types_encoding || "v@:"}})
     end
 
     import_class

@@ -25,13 +25,20 @@ def list_methods(nsclass, prefix)
   end
 end
 
-NSClass.all do |nsclass|
-  # next unless nsclass.name.starts_with? "NS"
-  # next if nsclass.name == "NSObject"
-  # next if nsclass.superclass.nil?  # NSObject, NSLeafProxy
-
+def list_class(nsclass)
   puts "class #{nsclass} < #{nsclass.superclass}"
   list_methods nsclass.metaclass, "+"
   list_methods nsclass, "-"
   puts "end"
 end
+
+def list_all_classes
+  NSClass.all do |nsclass|
+    # next unless nsclass.name.starts_with? "NS"
+    # next if nsclass.name == "NSObject"
+    # next if nsclass.superclass.nil?  # NSObject, NSLeafProxy
+    list_class nsclass
+  end
+end
+
+# list_all_classes
