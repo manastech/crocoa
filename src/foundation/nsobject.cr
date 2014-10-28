@@ -25,7 +25,8 @@ module Crocoa
 
     # TODO remove and add options to objc_static_method
     macro objc_init_method(method_name, crystal_method = nil)
-      def self.{{(crystal_method || method_name).id}}
+      {{ "##{crystal_method ||= method_name}".id }}
+      def self.{{crystal_method.id}}
         self.new(nsclass.send_msg({{method_name}}))
       end
     end
@@ -34,10 +35,12 @@ module Crocoa
       # TODO auto method tidy up.
       # ???? new lines breaks
       # ???? unable to extract type restriction on its own macro
-      def {{(crystal_method || method_name).id}}({% for i in 0 ... (args || [] of Symbol).length %}{% if i > 0 %} , {% end %} {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|NSString {% end %}{% if args[i] == :SEL %}: Selector|String? {% end %}{% if args[i] == :const_char_ptr %}: String {% end %}{% end %}{% end %})
+      {{ "##{crystal_method ||= method_name}".id }}
+      {{ "##{args ||= [] of Symbol}".id }}
+      def {{crystal_method.id}}({% for i in 0 ... args.length %}{% if i > 0 %} , {% end %} {{"arg#{i}".id}} {%if args[i] != :id && args[i] != :NSUInteger %}{% if args[i] == :BOOL %}: Bool{% end %}{% if args[i] == :NSString %}: String|NSString {% end %}{% if args[i] == :SEL %}: Selector|String? {% end %}{% if args[i] == :const_char_ptr %}: String {% end %}{% end %}{% end %})
 
         res = Crocoa.send_msg({{receiver}}, {{method_name}}
-          {% for i in 0 ... (args || [] of Symbol).length %}
+          {% for i in 0 ... args.length %}
             , objc_method_arg({{"arg#{i}".id}}, {{args[i]}})
           {% end %}
         )
@@ -82,7 +85,8 @@ module Crocoa
     end
 
     macro objc_static_method(method_name, args = nil, returnType = nil, crystal_method = nil)
-      objc_method_helper(nsclass.obj as Pointer(UInt8), {{method_name}}, {{args}}, {{returnType}}, {{"self.#{crystal_method.id || method_name.id}"}})
+      {{ "##{crystal_method ||= method_name}".id }}
+      objc_method_helper(nsclass.obj as Pointer(UInt8), {{method_name}}, {{args}}, {{returnType}}, {{"self.#{crystal_method.id}"}})
     end
 
     macro import_class(objc_class_name = nil)
@@ -114,9 +118,9 @@ module Crocoa
     end
 
     macro export(method_name, selector = nil, types_encoding = nil)
-      # {% selector ||= method_name %}
-      # {% types_encoding ||= "v@:" %}
-      $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL {%for t,i in (types_encoding||"v@:")[3..-1].chars%}{{", a#{i} : UInt8*".id}}{%end%}) {
+      {{ "##{selector ||= method_name}".id }}
+      {{ "##{types_encoding ||= "v@:"}".id }}
+      $x_{{@class_name.id}}_{{method_name.id}}_imp = ->(obj : UInt8*, _cmd : LibObjC::SEL {%for t,i in types_encoding[3..-1].chars%}{{", a#{i} : UInt8*".id}}{%end%}) {
         ptr = LibObjC.objc_getAssociatedObject(obj, $x_{{@class_name.id}}_assoc_key)
         if ptr.nil?
           # if there is no associated object, it was created by [[alloc] init] and
@@ -127,9 +131,9 @@ module Crocoa
           crystal_obj = ptr as {{@class_name.id}}
         end
         # TODO getAssociatedObject for params
-        crystal_obj.{{method_name.id}}({%for t,i in (types_encoding||"v@:")[3..-1].chars%}{%if i > 0%}{{",".id}}{%end%}{{"a#{i}".id}}{%end%})
+        crystal_obj.{{method_name.id}}({%for t,i in types_encoding[3..-1].chars%}{%if i > 0%}{{",".id}}{%end%}{{"a#{i}".id}}{%end%})
       }
-      LibObjC.class_addMethod($_{{@class_name.id}}_classPair, {{(selector || method_name)}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp.pointer as LibObjC::IMP, {{types_encoding || "v@:"}})
+      LibObjC.class_addMethod($_{{@class_name.id}}_classPair, {{selector.stringify}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp.pointer as LibObjC::IMP, {{types_encoding}})
     end
 
     import_class
