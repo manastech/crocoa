@@ -17,13 +17,14 @@ describe "export" do
       @x = 5
     end
 
-    def inc
+    objc def inc
       x = @x || 0 # compilation issues
       x += 1
 
       @x = x
     end
-    export inc
+
+    # export inc
   end
 
   it "should register classes" do

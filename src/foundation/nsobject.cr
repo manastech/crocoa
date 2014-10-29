@@ -136,6 +136,11 @@ module Crocoa
       LibObjC.class_addMethod($_{{@class_name.id}}_classPair, {{selector.stringify}}.to_sel.to_objc, $x_{{@class_name.id}}_{{method_name.id}}_imp.pointer as LibObjC::IMP, {{types_encoding}})
     end
 
+    macro objc(code)
+      # {{ puts run "../support/export_method", @class_name, code }}
+      {{ run "../support/export_method", @class_name, code }}
+    end
+
     import_class
 
     def nsclass
