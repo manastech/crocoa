@@ -1,9 +1,10 @@
 require "../spec_helper"
 
+def ns(s)
+  NSString.new(s)
+end
+
 describe "NSString" do
-  def ns(s)
-    NSString.new(s)
-  end
 
   it "maps cococa NSString class" do
     NSString.nsclass.name.should eq("NSString")

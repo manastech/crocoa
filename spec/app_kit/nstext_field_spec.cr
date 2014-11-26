@@ -1,11 +1,11 @@
 require "../spec_helper"
 require "./nscontrol_spec"
 
-describe "NSTextField" do
-  def new_text_field
-    NSTextField.new(NSRect.new(0, 0, 200, 200))
-  end
+def new_text_field
+  NSTextField.new(NSRect.new(0, 0, 200, 200))
+end
 
+describe "NSTextField" do
   describe_nscontrol new_text_field
 
   it "value can be get/set" do

@@ -6,15 +6,16 @@ describe "Int" do
   end
 end
 
-describe "Extensions" do
-  class ValueBox
-    def initialize(@value)
-    end
-
-    def to_objc
-      @value
-    end
+class ValueBox
+  def initialize(@value)
   end
+
+  def to_objc
+    @value
+  end
+end
+
+describe "Extensions" do
 
   it "should map to_objc" do
     {ValueBox.new(1), ValueBox.new("qwerty")}.map_to_objc.should eq({1, "qwerty"})

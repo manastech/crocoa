@@ -1,9 +1,10 @@
 require "../spec_helper"
 
+def pi
+  NSProcessInfo.process_info
+end
+
 describe "NSProcessInfo" do
-  def pi
-    NSProcessInfo.process_info
-  end
 
   it "can be created" do
     pi

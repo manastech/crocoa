@@ -1,31 +1,31 @@
 require "../spec_helper"
 
-describe "export" do
+class MyFooBar < NSObject
+  export_class
 
-  class MyFooBar < NSObject
-    export_class
+  property x
 
-    property x
-
-    def initialize
-      previous_def
-      @x = 5
-    end
-
-    def initialize(s : UInt8*)
-      previous_def
-      @x = 5
-    end
-
-    objc def inc
-      x = @x || 0 # compilation issues
-      x += 1
-
-      @x = x
-    end
-
-    # export inc
+  def initialize
+    previous_def
+    @x = 5
   end
+
+  def initialize(s : UInt8*)
+    previous_def
+    @x = 5
+  end
+
+  objc def inc
+    x = @x || 0 # compilation issues
+    x += 1
+
+    @x = x
+  end
+
+  # export inc
+end
+
+describe "export" do
 
   it "should register classes" do
     NSClass.new("MyFooBar").name.should eq("MyFooBar")

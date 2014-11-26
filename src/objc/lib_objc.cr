@@ -38,7 +38,7 @@ lib LibObjC
   fun objc_allocateClassPair(Class, UInt8*, UInt32) : Class
   fun objc_registerClassPair(Class) : Void
 
-  enum AssociationPolicy < Int32
+  enum AssociationPolicy : Int32
     ASSIGN  = 0u64,
     RETAIN_NONATOMIC  = 1u64,
     COPY_NONATOMIC  = 3u64,

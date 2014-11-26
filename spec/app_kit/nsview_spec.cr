@@ -1,10 +1,10 @@
 require "../spec_helper"
 
-describe "NSView" do
-  def new_view
-    NSView.new(NSRect.new(0, 0, 200, 200))
-  end
+def new_view
+  NSView.new(NSRect.new(0, 0, 200, 200))
+end
 
+describe "NSView" do
   it "can be created" do
     new_view
   end

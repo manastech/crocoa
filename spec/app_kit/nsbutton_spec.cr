@@ -1,11 +1,11 @@
 require "../spec_helper"
 require "./nscontrol_spec"
 
-describe "NSButton" do
-  def new_button
-    NSButton.new(NSRect.new(0, 0, 200, 200))
-  end
+def new_button
+  NSButton.new(NSRect.new(0, 0, 200, 200))
+end
 
+describe "NSButton" do
   describe_nscontrol new_button
 
   it "title can be get/set" do

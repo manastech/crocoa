@@ -1,10 +1,10 @@
 require "../spec_helper"
 
-describe "NSApplication" do
-  def new_window
-    NSWindow.new(NSRect.new(0, 0, 200, 200), LibAppKit::NSWindowMask::Titled, LibAppKit::NSBackingStoreType::Buffered, false)
-  end
+def new_window
+  NSWindow.new(NSRect.new(0, 0, 200, 200), LibAppKit::NSWindowMask::Titled, LibAppKit::NSBackingStoreType::Buffered, false)
+end
 
+describe "NSApplication" do
   it "can be created" do
     new_window
   end
