@@ -45,6 +45,10 @@ struct Int
   def to_cgfloat
     self.to_f64.to_cgfloat
   end
+
+  def as(nsclass)
+    raise "not implemented"
+  end
 end
 
 alias NSEnum = UInt64

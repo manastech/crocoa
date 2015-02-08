@@ -42,3 +42,8 @@ def list_all_classes
 end
 
 # list_all_classes
+list_class(NSClass.new("NSMutableArray"))
+list_class(NSClass.new("__NSArrayM"))
+list_class(NSClass.new("NSArray"))
+list_class(NSClass.new("NSButton"))
+
