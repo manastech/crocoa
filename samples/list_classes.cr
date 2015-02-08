@@ -6,7 +6,7 @@ def list_methods(nsclass, prefix)
   methods = LibObjC.class_copyMethodList(nsclass.obj, out method_count)
 
   unless method_count == 0 || methods.nil?
-    methods.as_enumerable(method_count).each do |method|
+    methods.to_slice(method_count.to_i).each do |method|
       s = ""
       LibObjC.method_getNumberOfArguments(method).times do |i|
         next if i == 0 || i == 1

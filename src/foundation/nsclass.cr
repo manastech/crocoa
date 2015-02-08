@@ -40,11 +40,15 @@ module Crocoa
       buffer = Pointer(LibObjC::Class).malloc(total)
       LibObjC.objc_getClassList(buffer, total)
       buffer
-        .as_enumerable(total)
+        .to_slice(total)
         .map { |x| NSClass.new x }
         .each do |nsclass|
         yield nsclass
       end
+    end
+
+    def instance_method(sel)
+      NSMethod.new LibObjC.class_getInstanceMethod(@obj, sel.to_sel.to_objc)
     end
   end
 end
