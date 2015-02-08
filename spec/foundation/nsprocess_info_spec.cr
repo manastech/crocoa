@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 def pi
   NSProcessInfo.process_info
 end

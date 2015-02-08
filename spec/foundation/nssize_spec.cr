@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 describe "NSSize" do
   it "it can be created" do
     p = NSSize.new(42, 24)

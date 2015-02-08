@@ -1,4 +1,3 @@
-require "../spec_helper"
 require "./nscontrol_spec"
 
 def new_button

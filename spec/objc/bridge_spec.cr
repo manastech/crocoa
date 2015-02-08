@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 describe "Int" do
   it "should be sent as itself" do
     1.to_objc.should eq(1)

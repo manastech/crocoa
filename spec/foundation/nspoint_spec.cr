@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 describe "NSPoint" do
   it "it can be created" do
     p = NSPoint.new(42, 24)

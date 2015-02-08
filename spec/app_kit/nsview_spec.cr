@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 def new_view
   NSView.new(NSRect.new(0, 0, 200, 200))
 end

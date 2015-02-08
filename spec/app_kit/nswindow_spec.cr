@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 def new_window
   NSWindow.new(NSRect.new(0, 0, 200, 200), LibAppKit::NSWindowMask::Titled, LibAppKit::NSBackingStoreType::Buffered, false)
 end

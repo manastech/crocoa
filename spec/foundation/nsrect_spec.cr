@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 describe "NSRect" do
   it "it can be created" do
     p = NSRect.new(10, 20, 100, 200)

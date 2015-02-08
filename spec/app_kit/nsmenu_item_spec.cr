@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 describe "NSMenuItem" do
   it "can be created" do
     NSMenuItem.new "aTitle", "terminate:", "q"

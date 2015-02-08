@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 macro describe_nscontrol(new_control)
   it "can be created" do
     {{new_control}}

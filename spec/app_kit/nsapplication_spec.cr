@@ -1,5 +1,3 @@
-require "../spec_helper"
-
 describe "NSApplication" do
   it "can be created" do
     NSApplication.shared_application
