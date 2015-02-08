@@ -1,4 +1,4 @@
-require "nsobject"
+require "./nsobject"
 
 module Crocoa
   class NSMutableArray < NSObject
