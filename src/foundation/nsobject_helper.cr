@@ -108,10 +108,10 @@ macro objc_method_helper_body(receiver, method_name, args = nil, returnType = ni
     # runtime return type check
     if {{returnType}} == "id"
       AnyObject.new(res)
-    elsif {{returnType}} == "NSUInteger"
+    elsif {{returnType}} == "unsigned long long"
       res.address
     else
-      raise "not implemented"
+      raise "not implemented as return type #{returnType}"
     end
   {% end %}
 end

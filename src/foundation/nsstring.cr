@@ -1,6 +1,6 @@
 module Crocoa
-  class NSString < NSObject
-    import_class
+  class NSString # < NSObject
+    # import_class
 
     objc_method "initWithUTF8String:", ["const_char_ptr"], "instancetype", "initialize"
 
@@ -16,7 +16,7 @@ module Crocoa
       self
     end
 
-    objc_method "length", nil, "NSUInteger"
+    # objc_method "length", nil, "NSUInteger"
     objc_method "characterAtIndex:", ["NSUInteger"], "unichar", "[]"
   end
 end

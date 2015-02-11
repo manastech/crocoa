@@ -47,6 +47,17 @@ module Crocoa
       end
     end
 
+    def instance_methods
+      method_count = 0u32
+      methods = LibObjC.class_copyMethodList(@obj, out method_count)
+
+      unless method_count == 0 || methods.nil?
+        methods.to_slice(method_count.to_i).each do |method|
+          yield NSMethod.new(method)
+        end
+      end
+    end
+
     def instance_method(sel)
       NSMethod.new LibObjC.class_getInstanceMethod(@obj, sel.to_sel.to_objc)
     end

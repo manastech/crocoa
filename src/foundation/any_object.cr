@@ -23,7 +23,7 @@ module Crocoa
 
     macro method_missing(name, args, block)
       method = nsclass.instance_method({{name}})
-      objc_method_body {{name}}, nil, method.return_type_as_nsclass_name
+      objc_method_body {{name}}, nil, method.return_type
     end
   end
 end

@@ -95,6 +95,14 @@ module Crocoa
     objc_target.not_nil!
     LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
   end
+
+  def self.as_float64(value : UInt64)
+    # TODO fix
+    p = Pointer(UInt64).malloc(1)
+    p.value = value
+    res = Pointer(Float64).new(p.address).value
+    res
+  end
 end
 
 

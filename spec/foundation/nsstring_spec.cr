@@ -26,4 +26,12 @@ describe "NSString" do
   it "should be a NSObject" do
     ns("lorem").is_a?(NSObject)
   end
+
+  it "can return int values" do
+    ns("234").int_value.should eq(234)
+  end
+
+  it "can return double values" do
+    ns("1.5").double_value.should eq(1.5)
+  end
 end

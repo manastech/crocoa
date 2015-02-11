@@ -1,0 +1,38 @@
+module Crocoa
+  class <%= nsclass.name %> < <%= nsclass.superclass %>
+    import_class <%= nsclass.name.dump %>
+    <% nsclass.instance_methods do |method|
+      next if method.args_count != 0
+      next if method.name.to_s.starts_with? '_' %>
+    #
+    # (-) <%= method.name %>
+    # <%= method.type_encoding %> (<%= method.return_type_encoding %>)
+    #
+    def <%= crystal_method_for(method) %>
+      <% unless method.return_type_supported? %>
+      raise <%= "return type '#{method.return_type_encoding}' not supported".dump %>
+      <% else %>
+      res = Crocoa.send_msg(to_objc, <%= method.name.dump %>)
+      <% rt = return_type_for(method) %>
+      <% if rt == "id" %>
+      AnyObject.new(res)
+      <% elsif rt == "unsigned long long" || rt == "long long" || rt == "int" %>
+      res.address
+      <% elsif rt == "float" %>
+      res.address as Float32
+      <% elsif rt == "double" %>
+      Crocoa.as_float64(res.address)
+      <% elsif rt == "char" %>
+      res.address.chr
+      <% elsif rt == "char *" %>
+      String.new(res.address)
+      <% elsif rt == "Class" %>
+      NSClass.new(res.address as LibObjC::Class)
+      <% else %>
+        <% raise "return type #{rt} for #{method.name} (#{method.type_encoding}) not supported in #{__FILE__}" %>
+      <% end %>
+      <% end %>
+    end
+    <% end %>
+  end
+end
