@@ -22,6 +22,8 @@ class ClassView
   def send_message_for(method : NSMethod)
     if method.return_type == "double"
       :send_msg_fpret
+    elsif method.return_type == "float"
+      :send_msg_float32
     else
       :send_msg
     end

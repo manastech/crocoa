@@ -410,10 +410,10 @@ module Crocoa
     #
     def float_value
       
-      res = Crocoa.send_msg(to_objc, "floatValue")
+      res = Crocoa.send_msg_float32(to_objc, "floatValue")
       
       
-      res.address as Float32
+      res
       
       
     end

@@ -36,4 +36,8 @@ describe "NSString" do
   it "can return double values" do
     ns("1.5").double_value.should eq(1.5)
   end
+
+  it "can return float values" do
+    ns("1.5").float_value.should eq(1.5)
+  end
 end

@@ -96,13 +96,18 @@ module Crocoa
     LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
   end
 
+  def self.send_msg_float32(objc_target, selector_name)
+    objc_target.not_nil!
+    f = ->(obj : UInt8*, sel : LibObjC::SEL){
+      LibObjC.objc_msgSend(obj, sel)
+    }
+    f2 = Proc(UInt8*, LibObjC::SEL, Float32).new(f.pointer, Pointer(Void).null)
+    f2.call(objc_target, selector_name.to_sel.to_objc)
+  end
+
   def self.send_msg_fpret(objc_target, selector_name, *args)
     objc_target.not_nil!
     LibObjC.objc_msgSend_fpret(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
-  end
-
-  def self.as_float64(value : UInt64)
-    (pointerof(value) as Float64*).value
   end
 end
 

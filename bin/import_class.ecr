@@ -19,7 +19,7 @@ module Crocoa
       <% elsif rt == "unsigned long long" || rt == "long long" || rt == "int" %>
       res.address
       <% elsif rt == "float" %>
-      res.address as Float32
+      res
       <% elsif rt == "double" %>
       res
       <% elsif rt == "char" %>
