@@ -1,3 +1,5 @@
+require "../spec_helper"
+
 def ns(s)
   NSString.new(s)
 end

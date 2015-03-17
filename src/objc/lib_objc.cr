@@ -31,6 +31,7 @@ lib LibObjC
   fun class_getSuperclass(Class) : Class
 
   fun objc_msgSend(UInt8*, SEL, ...) : UInt8*
+  fun objc_msgSend_fpret(UInt8*, SEL, ...) : Float64
 
   fun sel_registerName(UInt8*) : SEL
   fun sel_getName(SEL) : UInt8*

@@ -23,6 +23,8 @@ module Crocoa
     end
 
     macro export_class(objc_class_name = nil)
+      objc_class
+
       $_{{@class_name.id}}_classPair = LibObjC.objc_allocateClassPair({{@superclass}}.nsclass.obj, {{@class_name}}, 0_u32)
       LibObjC.objc_registerClassPair($_{{@class_name.id}}_classPair)
       $x_{{@class_name.id}}_assoc_key = "crystal_obj"

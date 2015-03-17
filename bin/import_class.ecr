@@ -12,7 +12,7 @@ module Crocoa
       <% unless method.return_type_supported? %>
       raise <%= "return type '#{method.return_type_encoding}' not supported".dump %>
       <% else %>
-      res = Crocoa.send_msg(to_objc, <%= method.name.dump %>)
+      res = Crocoa.<%= send_message_for(method) %>(to_objc, <%= method.name.dump %>)
       <% rt = return_type_for(method) %>
       <% if rt == "id" %>
       AnyObject.new(res)
@@ -21,7 +21,7 @@ module Crocoa
       <% elsif rt == "float" %>
       res.address as Float32
       <% elsif rt == "double" %>
-      Crocoa.as_float64(res.address)
+      res
       <% elsif rt == "char" %>
       res.address.chr
       <% elsif rt == "char *" %>

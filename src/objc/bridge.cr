@@ -60,7 +60,7 @@ struct Bool
   end
 end
 
-class Pointer(T)
+struct Pointer(T)
   def to_objc
     self
   end
@@ -76,7 +76,7 @@ class String
   end
 end
 
-class Tuple
+struct Tuple
   def map_to_objc
     {% if @length == 0 %}
       self
@@ -96,12 +96,13 @@ module Crocoa
     LibObjC.objc_msgSend(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
   end
 
+  def self.send_msg_fpret(objc_target, selector_name, *args)
+    objc_target.not_nil!
+    LibObjC.objc_msgSend_fpret(objc_target, selector_name.to_sel.to_objc, *args.map_to_objc)
+  end
+
   def self.as_float64(value : UInt64)
-    # TODO fix
-    p = Pointer(UInt64).malloc(1)
-    p.value = value
-    res = Pointer(Float64).new(p.address).value
-    res
+    (pointerof(value) as Float64*).value
   end
 end
 

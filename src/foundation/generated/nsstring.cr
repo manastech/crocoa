@@ -31,6 +31,268 @@ module Crocoa
     end
     
     #
+    # (-) isNSString__
+    # c16@0:8 (c)
+    #
+    def is_ns_string__
+      
+      res = Crocoa.send_msg(to_objc, "isNSString__")
+      
+      
+      res.address.chr
+      
+      
+    end
+    
+    #
+    # (-) fastestEncoding
+    # Q16@0:8 (Q)
+    #
+    def fastest_encoding
+      
+      res = Crocoa.send_msg(to_objc, "fastestEncoding")
+      
+      
+      res.address
+      
+      
+    end
+    
+    #
+    # (-) smallestEncoding
+    # Q16@0:8 (Q)
+    #
+    def smallest_encoding
+      
+      res = Crocoa.send_msg(to_objc, "smallestEncoding")
+      
+      
+      res.address
+      
+      
+    end
+    
+    #
+    # (-) decomposedStringWithCompatibilityMapping
+    # @16@0:8 (@)
+    #
+    def decomposed_string_with_compatibility_mapping
+      
+      res = Crocoa.send_msg(to_objc, "decomposedStringWithCompatibilityMapping")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) precomposedStringWithCompatibilityMapping
+    # @16@0:8 (@)
+    #
+    def precomposed_string_with_compatibility_mapping
+      
+      res = Crocoa.send_msg(to_objc, "precomposedStringWithCompatibilityMapping")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) cStringLength
+    # Q16@0:8 (Q)
+    #
+    def c_string_length
+      
+      res = Crocoa.send_msg(to_objc, "cStringLength")
+      
+      
+      res.address
+      
+      
+    end
+    
+    #
+    # (-) lossyCString
+    # r*16@0:8 (r*)
+    #
+    def lossy_cString
+      
+      res = Crocoa.send_msg(to_objc, "lossyCString")
+      
+      
+      String.new(res.address)
+      
+      
+    end
+    
+    #
+    # (-) quotedStringRepresentation
+    # @16@0:8 (@)
+    #
+    def quoted_string_representation
+      
+      res = Crocoa.send_msg(to_objc, "quotedStringRepresentation")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) stringByConvertingPathToURL
+    # @16@0:8 (@)
+    #
+    def string_by_converting_path_to_uRL
+      
+      res = Crocoa.send_msg(to_objc, "stringByConvertingPathToURL")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) stringByConvertingURLToPath
+    # @16@0:8 (@)
+    #
+    def string_by_converting_url_to_path
+      
+      res = Crocoa.send_msg(to_objc, "stringByConvertingURLToPath")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) propertyListFromStringsFileFormat
+    # @16@0:8 (@)
+    #
+    def property_list_from_strings_file_format
+      
+      res = Crocoa.send_msg(to_objc, "propertyListFromStringsFileFormat")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) formatConfiguration
+    # @16@0:8 (@)
+    #
+    def format_configuration
+      
+      res = Crocoa.send_msg(to_objc, "formatConfiguration")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) stringByAddingPercentEscapes
+    # @16@0:8 (@)
+    #
+    def string_by_adding_percent_escapes
+      
+      res = Crocoa.send_msg(to_objc, "stringByAddingPercentEscapes")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) standardizedURLPath
+    # @16@0:8 (@)
+    #
+    def standardized_url_path
+      
+      res = Crocoa.send_msg(to_objc, "standardizedURLPath")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) stringByRemovingPercentEncoding
+    # @16@0:8 (@)
+    #
+    def string_by_removing_percent_encoding
+      
+      res = Crocoa.send_msg(to_objc, "stringByRemovingPercentEncoding")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) significantText
+    # {_NSRange=QQ}16@0:8 ({_NSRange=QQ})
+    #
+    def significant_text
+      
+      raise "return type '{_NSRange=QQ}' not supported"
+      
+    end
+    
+    #
+    # (-) precomposedStringWithCanonicalMapping
+    # @16@0:8 (@)
+    #
+    def precomposed_string_with_canonical_mapping
+      
+      res = Crocoa.send_msg(to_objc, "precomposedStringWithCanonicalMapping")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
+    # (-) cString
+    # r*16@0:8 (r*)
+    #
+    def c_string
+      
+      res = Crocoa.send_msg(to_objc, "cString")
+      
+      
+      String.new(res.address)
+      
+      
+    end
+    
+    #
+    # (-) stringByRemovingPercentEscapes
+    # @16@0:8 (@)
+    #
+    def string_by_removing_percent_escapes
+      
+      res = Crocoa.send_msg(to_objc, "stringByRemovingPercentEscapes")
+      
+      
+      AnyObject.new(res)
+      
+      
+    end
+    
+    #
     # (-) stringByDeletingPathExtension
     # @16@0:8 (@)
     #
@@ -106,10 +368,10 @@ module Crocoa
     #
     def double_value
       
-      res = Crocoa.send_msg(to_objc, "doubleValue")
+      res = Crocoa.send_msg_fpret(to_objc, "doubleValue")
       
       
-      Crocoa.as_float64(res.address)
+      res
       
       
     end
@@ -429,268 +691,6 @@ module Crocoa
     def decimal_value
       
       raise "return type '{?=b8b4b1b1b18[8S]}' not supported"
-      
-    end
-    
-    #
-    # (-) precomposedStringWithCanonicalMapping
-    # @16@0:8 (@)
-    #
-    def precomposed_string_with_canonical_mapping
-      
-      res = Crocoa.send_msg(to_objc, "precomposedStringWithCanonicalMapping")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) isNSString__
-    # c16@0:8 (c)
-    #
-    def is_ns_string__
-      
-      res = Crocoa.send_msg(to_objc, "isNSString__")
-      
-      
-      res.address.chr
-      
-      
-    end
-    
-    #
-    # (-) fastestEncoding
-    # Q16@0:8 (Q)
-    #
-    def fastest_encoding
-      
-      res = Crocoa.send_msg(to_objc, "fastestEncoding")
-      
-      
-      res.address
-      
-      
-    end
-    
-    #
-    # (-) smallestEncoding
-    # Q16@0:8 (Q)
-    #
-    def smallest_encoding
-      
-      res = Crocoa.send_msg(to_objc, "smallestEncoding")
-      
-      
-      res.address
-      
-      
-    end
-    
-    #
-    # (-) decomposedStringWithCompatibilityMapping
-    # @16@0:8 (@)
-    #
-    def decomposed_string_with_compatibility_mapping
-      
-      res = Crocoa.send_msg(to_objc, "decomposedStringWithCompatibilityMapping")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) precomposedStringWithCompatibilityMapping
-    # @16@0:8 (@)
-    #
-    def precomposed_string_with_compatibility_mapping
-      
-      res = Crocoa.send_msg(to_objc, "precomposedStringWithCompatibilityMapping")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) cStringLength
-    # Q16@0:8 (Q)
-    #
-    def c_string_length
-      
-      res = Crocoa.send_msg(to_objc, "cStringLength")
-      
-      
-      res.address
-      
-      
-    end
-    
-    #
-    # (-) lossyCString
-    # r*16@0:8 (r*)
-    #
-    def lossy_cString
-      
-      res = Crocoa.send_msg(to_objc, "lossyCString")
-      
-      
-      String.new(res.address)
-      
-      
-    end
-    
-    #
-    # (-) quotedStringRepresentation
-    # @16@0:8 (@)
-    #
-    def quoted_string_representation
-      
-      res = Crocoa.send_msg(to_objc, "quotedStringRepresentation")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) stringByConvertingPathToURL
-    # @16@0:8 (@)
-    #
-    def string_by_converting_path_to_uRL
-      
-      res = Crocoa.send_msg(to_objc, "stringByConvertingPathToURL")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) stringByConvertingURLToPath
-    # @16@0:8 (@)
-    #
-    def string_by_converting_url_to_path
-      
-      res = Crocoa.send_msg(to_objc, "stringByConvertingURLToPath")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) propertyListFromStringsFileFormat
-    # @16@0:8 (@)
-    #
-    def property_list_from_strings_file_format
-      
-      res = Crocoa.send_msg(to_objc, "propertyListFromStringsFileFormat")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) formatConfiguration
-    # @16@0:8 (@)
-    #
-    def format_configuration
-      
-      res = Crocoa.send_msg(to_objc, "formatConfiguration")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) stringByAddingPercentEscapes
-    # @16@0:8 (@)
-    #
-    def string_by_adding_percent_escapes
-      
-      res = Crocoa.send_msg(to_objc, "stringByAddingPercentEscapes")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) standardizedURLPath
-    # @16@0:8 (@)
-    #
-    def standardized_url_path
-      
-      res = Crocoa.send_msg(to_objc, "standardizedURLPath")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) stringByRemovingPercentEncoding
-    # @16@0:8 (@)
-    #
-    def string_by_removing_percent_encoding
-      
-      res = Crocoa.send_msg(to_objc, "stringByRemovingPercentEncoding")
-      
-      
-      AnyObject.new(res)
-      
-      
-    end
-    
-    #
-    # (-) significantText
-    # {_NSRange=QQ}16@0:8 ({_NSRange=QQ})
-    #
-    def significant_text
-      
-      raise "return type '{_NSRange=QQ}' not supported"
-      
-    end
-    
-    #
-    # (-) cString
-    # r*16@0:8 (r*)
-    #
-    def c_string
-      
-      res = Crocoa.send_msg(to_objc, "cString")
-      
-      
-      String.new(res.address)
-      
-      
-    end
-    
-    #
-    # (-) stringByRemovingPercentEscapes
-    # @16@0:8 (@)
-    #
-    def string_by_removing_percent_escapes
-      
-      res = Crocoa.send_msg(to_objc, "stringByRemovingPercentEscapes")
-      
-      
-      AnyObject.new(res)
-      
       
     end
     
