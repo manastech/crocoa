@@ -10,6 +10,8 @@ module Crocoa
       @obj = LibObjC.objc_getClass(className)
     end
 
+    def_equals obj
+
     def name
       String.new(LibObjC.class_getName(@obj))
     end

@@ -1,3 +1,7 @@
+
+
+
+
 module Crocoa
   class NSString < NSObject
     import_class "NSString"
@@ -9,6 +13,7 @@ module Crocoa
     def string_without_ampersand
       
       res = Crocoa.send_msg(to_objc, "stringWithoutAmpersand")
+      
       
       
       AnyObject.new(res)
@@ -25,6 +30,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "CAMLType")
       
       
+      
       AnyObject.new(res)
       
       
@@ -37,6 +43,7 @@ module Crocoa
     def is_ns_string__
       
       res = Crocoa.send_msg(to_objc, "isNSString__")
+      
       
       
       res.address.chr
@@ -53,6 +60,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "fastestEncoding")
       
       
+      
       res.address
       
       
@@ -65,6 +73,7 @@ module Crocoa
     def smallest_encoding
       
       res = Crocoa.send_msg(to_objc, "smallestEncoding")
+      
       
       
       res.address
@@ -81,6 +90,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "decomposedStringWithCompatibilityMapping")
       
       
+      
       AnyObject.new(res)
       
       
@@ -93,6 +103,7 @@ module Crocoa
     def precomposed_string_with_compatibility_mapping
       
       res = Crocoa.send_msg(to_objc, "precomposedStringWithCompatibilityMapping")
+      
       
       
       AnyObject.new(res)
@@ -109,6 +120,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "cStringLength")
       
       
+      
       res.address
       
       
@@ -121,6 +133,7 @@ module Crocoa
     def lossy_cString
       
       res = Crocoa.send_msg(to_objc, "lossyCString")
+      
       
       
       String.new(res.address)
@@ -137,6 +150,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "quotedStringRepresentation")
       
       
+      
       AnyObject.new(res)
       
       
@@ -149,6 +163,7 @@ module Crocoa
     def string_by_converting_path_to_uRL
       
       res = Crocoa.send_msg(to_objc, "stringByConvertingPathToURL")
+      
       
       
       AnyObject.new(res)
@@ -165,6 +180,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "stringByConvertingURLToPath")
       
       
+      
       AnyObject.new(res)
       
       
@@ -177,6 +193,7 @@ module Crocoa
     def property_list_from_strings_file_format
       
       res = Crocoa.send_msg(to_objc, "propertyListFromStringsFileFormat")
+      
       
       
       AnyObject.new(res)
@@ -193,6 +210,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "formatConfiguration")
       
       
+      
       AnyObject.new(res)
       
       
@@ -205,6 +223,7 @@ module Crocoa
     def string_by_adding_percent_escapes
       
       res = Crocoa.send_msg(to_objc, "stringByAddingPercentEscapes")
+      
       
       
       AnyObject.new(res)
@@ -221,6 +240,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "standardizedURLPath")
       
       
+      
       AnyObject.new(res)
       
       
@@ -233,6 +253,7 @@ module Crocoa
     def string_by_removing_percent_encoding
       
       res = Crocoa.send_msg(to_objc, "stringByRemovingPercentEncoding")
+      
       
       
       AnyObject.new(res)
@@ -259,6 +280,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "precomposedStringWithCanonicalMapping")
       
       
+      
       AnyObject.new(res)
       
       
@@ -271,6 +293,7 @@ module Crocoa
     def c_string
       
       res = Crocoa.send_msg(to_objc, "cString")
+      
       
       
       String.new(res.address)
@@ -287,6 +310,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "stringByRemovingPercentEscapes")
       
       
+      
       AnyObject.new(res)
       
       
@@ -299,6 +323,7 @@ module Crocoa
     def string_by_deleting_path_extension
       
       res = Crocoa.send_msg(to_objc, "stringByDeletingPathExtension")
+      
       
       
       AnyObject.new(res)
@@ -315,6 +340,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "lastPathComponent")
       
       
+      
       AnyObject.new(res)
       
       
@@ -327,6 +353,7 @@ module Crocoa
     def hash
       
       res = Crocoa.send_msg(to_objc, "hash")
+      
       
       
       res.address
@@ -343,6 +370,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "description")
       
       
+      
       AnyObject.new(res)
       
       
@@ -355,6 +383,7 @@ module Crocoa
     def length
       
       res = Crocoa.send_msg(to_objc, "length")
+      
       
       
       res.address
@@ -371,6 +400,7 @@ module Crocoa
       res = Crocoa.send_msg_fpret(to_objc, "doubleValue")
       
       
+      
       res
       
       
@@ -383,6 +413,7 @@ module Crocoa
     def bool_value
       
       res = Crocoa.send_msg(to_objc, "boolValue")
+      
       
       
       res.address.chr
@@ -399,6 +430,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "integerValue")
       
       
+      
       res.address
       
       
@@ -411,6 +443,7 @@ module Crocoa
     def float_value
       
       res = Crocoa.send_msg_float32(to_objc, "floatValue")
+      
       
       
       res
@@ -427,6 +460,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "UTF8String")
       
       
+      
       String.new(res.address)
       
       
@@ -439,6 +473,7 @@ module Crocoa
     def long_long_value
       
       res = Crocoa.send_msg(to_objc, "longLongValue")
+      
       
       
       res.address
@@ -455,6 +490,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "fileSystemRepresentation")
       
       
+      
       String.new(res.address)
       
       
@@ -467,6 +503,7 @@ module Crocoa
     def path_extension
       
       res = Crocoa.send_msg(to_objc, "pathExtension")
+      
       
       
       AnyObject.new(res)
@@ -483,6 +520,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "lowercaseString")
       
       
+      
       AnyObject.new(res)
       
       
@@ -495,6 +533,7 @@ module Crocoa
     def string_by_resolving_symlinks_in_path
       
       res = Crocoa.send_msg(to_objc, "stringByResolvingSymlinksInPath")
+      
       
       
       AnyObject.new(res)
@@ -511,6 +550,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "intValue")
       
       
+      
       res.address
       
       
@@ -525,7 +565,8 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "uppercaseString")
       
       
-      AnyObject.new(res)
+      
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -537,6 +578,7 @@ module Crocoa
     def class_for_coder
       
       res = Crocoa.send_msg(to_objc, "classForCoder")
+      
       
       
       NSClass.new(res.address as LibObjC::Class)
@@ -553,6 +595,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "stringByDeletingLastPathComponent")
       
       
+      
       AnyObject.new(res)
       
       
@@ -565,6 +608,7 @@ module Crocoa
     def string_by_standardizing_path
       
       res = Crocoa.send_msg(to_objc, "stringByStandardizingPath")
+      
       
       
       AnyObject.new(res)
@@ -581,6 +625,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "pathComponents")
       
       
+      
       AnyObject.new(res)
       
       
@@ -593,6 +638,7 @@ module Crocoa
     def string_by_expanding_tilde_in_path
       
       res = Crocoa.send_msg(to_objc, "stringByExpandingTildeInPath")
+      
       
       
       AnyObject.new(res)
@@ -609,6 +655,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "isAbsolutePath")
       
       
+      
       res.address.chr
       
       
@@ -621,6 +668,7 @@ module Crocoa
     def string_by_abbreviating_with_tilde_in_path
       
       res = Crocoa.send_msg(to_objc, "stringByAbbreviatingWithTildeInPath")
+      
       
       
       AnyObject.new(res)
@@ -637,6 +685,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "capitalizedString")
       
       
+      
       AnyObject.new(res)
       
       
@@ -649,6 +698,7 @@ module Crocoa
     def property_list
       
       res = Crocoa.send_msg(to_objc, "propertyList")
+      
       
       
       AnyObject.new(res)
@@ -665,6 +715,7 @@ module Crocoa
       res = Crocoa.send_msg(to_objc, "decomposedStringWithCanonicalMapping")
       
       
+      
       AnyObject.new(res)
       
       
@@ -677,6 +728,7 @@ module Crocoa
     def displayable_string
       
       res = Crocoa.send_msg(to_objc, "displayableString")
+      
       
       
       AnyObject.new(res)

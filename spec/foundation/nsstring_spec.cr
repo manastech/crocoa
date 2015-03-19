@@ -40,4 +40,11 @@ describe "NSString" do
   it "can return float values" do
     ns("1.5").float_value.should eq(1.5)
   end
+
+  it "returns typed string" do
+    u = ns("loremIpsum").uppercase_string
+    u.to_id.nsclass.name.should eq("__NSCFString")
+    u.class.should eq(NSString)
+    u.to_s.should eq("LOREMIPSUM")
+  end
 end

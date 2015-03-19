@@ -5,7 +5,7 @@ include Crocoa
 
 class ClassView
   getter :nsclass
-  def initialize(@nsclass)
+  def initialize(@nsclass, @docs)
   end
   ecr_file "#{__DIR__}/import_class.ecr"
 
@@ -15,8 +15,24 @@ class ClassView
     end
   end
 
+  def source_location(nsclass)
+    "./#{crystal_class_name(nsclass).downcase}"
+  end
+
+  def crystal_class_name(nsclass : NSClass)
+    crystal_class_name(nsclass.name)
+  end
+
+  def crystal_class_name(nsclass_name : String)
+    nsclass_name.gsub(/^_+/) { "" }
+  end
+
   def return_type_for(method : NSMethod)
     method.return_type
+  end
+
+  def strong_return_type_for(method : NSMethod)
+    @docs.return_type(method.name)
   end
 
   def send_message_for(method : NSMethod)
@@ -30,8 +46,17 @@ class ClassView
   end
 end
 
-def generate_class(class_name, path = nil)
-  content = ClassView.new(NSClass.new(class_name)).to_s
+class Docs
+  def initialize(@d = {} of String => String)
+  end
+
+  def return_type(method_name)
+    @d[method_name]?
+  end
+end
+
+def generate_class(class_name, docs, path = nil)
+  content = ClassView.new(NSClass.new(class_name), docs).to_s
   if path.nil?
     puts content
   else
@@ -41,7 +66,8 @@ def generate_class(class_name, path = nil)
 end
 
 # generate_class "NSArray"
-generate_class "NSString", "../src/foundation/generated/nsstring.cr"
-
-
+# generate_class "NSObject", Docs.new(), "../src/foundation/generated/nsobject.cr"
+generate_class "NSString", Docs.new({"uppercaseString" => "NSString"}), "../src/foundation/generated/nsstring.cr"
+# generate_class "NSMutableString", "../src/foundation/generated/nsmutablestring.cr"
+# generate_class "__NSCFString", "../src/foundation/generated/__nscfstring.cr"
 

@@ -16,9 +16,17 @@ module Crocoa
       @nsclass.not_nil!
     end
 
-    def as(nsclass)
-      # TODO runtime type check
+    def as(nsclass : Class)
+      raise "Runtime obj-c cast error '#{self.nsclass}' is not a '#{nsclass.nsclass}'" unless is_kind_of_class(nsclass)
       nsclass.new(to_objc)
+    end
+
+    def is_kind_of_class(klass : Class)
+      is_kind_of_class(klass.nsclass)
+    end
+
+    def is_kind_of_class(nsclass : NSClass)
+      Crocoa.send_msg(to_objc, "isKindOfClass:", nsclass.obj).address != 0
     end
 
     macro method_missing(name, args, block)

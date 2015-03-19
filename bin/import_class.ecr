@@ -1,5 +1,11 @@
+<% if sc = nsclass.superclass %>
+<% if sc.name != "NSObject" %>
+require "<%= source_location(sc) %>"
+<% end %>
+<% end %>
+
 module Crocoa
-  class <%= nsclass.name %> < <%= nsclass.superclass %>
+  class <%= crystal_class_name(nsclass) %> < <%= nsclass.superclass %>
     import_class <%= nsclass.name.dump %>
     <% nsclass.instance_methods do |method|
       next if method.args_count != 0
@@ -13,9 +19,12 @@ module Crocoa
       raise <%= "return type '#{method.return_type_encoding}' not supported".dump %>
       <% else %>
       res = Crocoa.<%= send_message_for(method) %>(to_objc, <%= method.name.dump %>)
+      <% srt = strong_return_type_for(method) %>
       <% rt = return_type_for(method) %>
-      <% if rt == "id" %>
+      <% if rt == "id" && srt.nil? %>
       AnyObject.new(res)
+      <% elsif rt == "id" %>
+      AnyObject.new(res).as(<%= srt %>)
       <% elsif rt == "unsigned long long" || rt == "long long" || rt == "int" %>
       res.address
       <% elsif rt == "float" %>
