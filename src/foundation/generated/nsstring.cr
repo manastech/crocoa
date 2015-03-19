@@ -130,7 +130,7 @@ module Crocoa
     # (-) lossyCString
     # r*16@0:8 (r*)
     #
-    def lossy_cString
+    def lossy_cstring
       
       res = Crocoa.send_msg(to_objc, "lossyCString")
       
@@ -160,7 +160,7 @@ module Crocoa
     # (-) stringByConvertingPathToURL
     # @16@0:8 (@)
     #
-    def string_by_converting_path_to_uRL
+    def string_by_converting_path_to_url
       
       res = Crocoa.send_msg(to_objc, "stringByConvertingPathToURL")
       
@@ -455,7 +455,7 @@ module Crocoa
     # (-) UTF8String
     # r*16@0:8 (r*)
     #
-    def uTF8String
+    def utf8_string
       
       res = Crocoa.send_msg(to_objc, "UTF8String")
       

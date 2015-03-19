@@ -3,6 +3,27 @@ require "../crocoa"
 
 include Crocoa
 
+module Import
+  def self.crystal_method_for(method_name)
+    # TODO simplify upon https://github.com/manastech/crystal/issues/492
+    m = method_name.underscore
+
+    m = m.gsub(/([A-Z]+)$/) do |str, match|
+      match[0].downcase
+    end
+
+    m = m.gsub(/([A-Z]+)([A-Z])([a-z])/) do |str, match|
+      "#{match[1].downcase}_#{match[2].downcase}#{match[3]}"
+    end
+
+    m = m.gsub(/([A-Z\d])([A-Z\d][a-z])/) do |str, match|
+      "#{match[1]}_#{match[2]}"
+    end
+
+    m.downcase
+  end
+end
+
 class ClassView
   getter :nsclass
   def initialize(@nsclass, @docs)
@@ -10,9 +31,7 @@ class ClassView
   ecr_file "#{__DIR__}/import_class.ecr"
 
   def crystal_method_for(method : NSMethod)
-    method.name.underscore.gsub(/([A-Z]+)([A-Z])([a-z])/) do |str, match|
-      "#{match[1].downcase}_#{match[2].downcase}#{match[3]}"
-    end
+    Import.crystal_method_for(method.name)
   end
 
   def source_location(nsclass)
