@@ -10,8 +10,10 @@ def generate_class(class_name, docs, path = nil)
   end
 end
 
+header = "/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h"
+
 # generate_class "NSArray"
 # generate_class "NSObject", Docs.new(), "../src/foundation/generated/nsobject.cr"
-generate_class "NSString", Docs.new({"uppercaseString" => "NSString"}), "../src/foundation/generated/nsstring.cr"
+generate_class "NSString", Docs.new(header), "../src/foundation/generated/nsstring.cr"
 # generate_class "NSMutableString", "../src/foundation/generated/nsmutablestring.cr"
 # generate_class "__NSCFString", "../src/foundation/generated/__nscfstring.cr"

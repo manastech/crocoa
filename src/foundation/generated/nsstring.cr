@@ -91,7 +91,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -106,7 +106,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -226,7 +226,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -256,7 +256,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -281,7 +281,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -326,7 +326,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -341,7 +341,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -371,7 +371,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -506,7 +506,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -521,7 +521,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -536,7 +536,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -596,7 +596,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -611,7 +611,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -626,7 +626,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSArray)
       
       
     end
@@ -641,7 +641,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -671,7 +671,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -686,7 +686,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end
@@ -716,7 +716,7 @@ module Crocoa
       
       
       
-      AnyObject.new(res)
+      AnyObject.new(res).as(NSString)
       
       
     end

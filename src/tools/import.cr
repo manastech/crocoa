@@ -1,5 +1,6 @@
 require "ecr/macros"
 require "../crocoa"
+require "./tree_parser"
 
 include Crocoa
 
@@ -50,8 +51,8 @@ class ClassView
     method.return_type
   end
 
-  def strong_return_type_for(method : NSMethod)
-    @docs.return_type(method.name)
+  def strong_return_type_for(nsclass, instance_method, method : NSMethod)
+    @docs.return_type(nsclass.name, instance_method, method.name)
   end
 
   def send_message_for(method : NSMethod)
@@ -66,11 +67,36 @@ class ClassView
 end
 
 class Docs
-  def initialize(@d = {} of String => String)
+  def initialize(header)
+    app_kit_ast = Process.run("/bin/sh", input: "clang -cc1 -ast-dump -fblocks -x objective-c #{header}", output: true).output.not_nil!
+    @t = TreeParser.new(StringIO.new(app_kit_ast))
   end
 
-  def return_type(method_name)
-    @d[method_name]?
+  def return_type(nsclass_name, instance_method, method_name)
+    return_type = nil
+    @t.root.find_methods_related nsclass_name, -> (node: Tree) {
+      return unless node.kind == "ObjCMethodDecl"
+      if node.raw.match(Regex.new("#{instance_method ? '-' : '+'} #{method_name}"))
+        if md = node.raw.match(/'(.*)':'.*'$/)
+          return_type = md[1]
+        elsif md = node.raw.match(/'(.*)'$/)
+          return_type = md[1]
+        else
+          puts "return value not found"
+          puts node
+        end
+      end
+    }
+
+    if return_type && return_type.not_nil!.ends_with? " *"
+      return_type = return_type.not_nil![0..-3]
+    end
+
+    # puts "srt: #{nsclass_name}, #{instance_method}, #{method_name} -> #{return_type}"
+
+    return_type = nil if ["NSDictionary"].includes?(return_type)
+
+    return_type
   end
 end
 
