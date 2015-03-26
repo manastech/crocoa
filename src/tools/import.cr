@@ -74,7 +74,7 @@ class Docs
 
   def return_type(nsclass_name, instance_method, method_name)
     return_type = nil
-    @t.root.find_methods_related nsclass_name, -> (node: Tree) {
+    @t.root.find_methods_related(nsclass_name) do |node|
       return unless node.kind == "ObjCMethodDecl"
       if node.raw.match(Regex.new("#{instance_method ? '-' : '+'} #{method_name}"))
         if md = node.raw.match(/'(.*)':'.*'$/)
@@ -86,7 +86,7 @@ class Docs
           puts node
         end
       end
-    }
+    end
 
     if return_type && return_type.not_nil!.ends_with? " *"
       return_type = return_type.not_nil![0..-3]

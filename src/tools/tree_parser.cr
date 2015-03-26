@@ -18,25 +18,26 @@ class Tree
     raw.split.first
   end
 
-  def find_node(regex, proc)
+  def find_node(regex, &proc : Tree ->)
     # puts print_node
     if raw =~ regex
       proc.call(self)
     else
       childs.each do |node|
-        node.find_node(regex, proc)
+        node.find_node(regex, &proc)
       end
     end
   end
 
   def level
-    @level ||= parent.nil? ? 0 : (parent.not_nil!.level + 1)
+    @level ||= begin
+      parent = @parent
+      parent ? parent.level + 1 : 0
+    end
   end
 
   def print_trace(io, colorized = true)
-    if parent
-      parent.not_nil!.print_trace(io, false)
-    end
+    parent.try &.print_trace(io, false)
     print_node(io, colorized)
   end
 
@@ -76,13 +77,13 @@ class Tree
     print_trace(io)
   end
 
-  def find_class_related(nsclass_name, proc)
+  def find_class_related(nsclass_name, &proc : Tree -> )
     # ObjCInterfaceDecl migth be needed to be returned also
-    find_node(Regex.new("^ObjCInterface .*#{nsclass_name}"), proc)
+    find_node(Regex.new("^ObjCInterface .*#{nsclass_name}"), &proc)
   end
 
-  def find_methods_related(nsclass_name, proc)
-    find_class_related(nsclass_name, ->(node: Tree) {
+  def find_methods_related(nsclass_name, &proc : Tree ->)
+    find_class_related(nsclass_name) do |node|
       if node.kind == "ObjCInterface"
         # ObjCInterface has ObjCMethodDecl as siblings, not child
         node = node.next_sibling
@@ -93,7 +94,7 @@ class Tree
       else
         raise "not implemented '#{node.kind}'"
       end
-    })
+    end
   end
 
   def next_sibling
