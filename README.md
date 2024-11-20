@@ -1,7 +1,7 @@
 # crocoa
 
 > [!IMPORTANT]
-> This library is no longer supported or updated by the Manas.Tech,
+> This library is no longer supported or updated by Manas.Tech,
 > therefore we have archived the repository.
 > 
 > The contents are still available readonly and continue to work as a
